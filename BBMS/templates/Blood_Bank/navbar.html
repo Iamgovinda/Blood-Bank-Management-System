@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../static/css/navbar.css">
+    <script src="https://kit.fontawesome.com/7a89f58fe1.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header" pb-5>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-dark" style="background-color: #ED5050; border-bottom:3px solid black">
+          <div class="logo">
+            <div class="imgleft">
+              <img src="{% static 'images/OIP.jpg' %}" alt="">
+            </div>&nbsp;
+            <div class="bbms">
+              <a class="navbar-brand" href="/" style="color:#FFFFFF;"><b>Blood Bank Management System</b></a>
+            </div>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item ">
+                <a class="nav-link" href="/" style="color: white;"><i class="fas fa-home"></i>&nbsp; <b>Home</b><span class="sr-only">(current)</span></a>
+              </li>&nbsp;
+              
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/client/logout" style="color: white;"><i class="fas fa-sign-out-alt"></i>&nbsp; <b>Logout</b></a>
+                  {{ request.group.name }}
+                </li>
+              {% else %}
+              <li class="nav-item">
+                <!-- <i class="fa-duotone fa-users"></i> -->
+                <a class="nav-link" href="/client/login" style="color: white;"><i class="fas fa-users">&nbsp;</i><b>Client</b></a>
+              </li>&nbsp;
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/login" style="color: white;"><i class="fas fa-user-shield"></i>&nbsp; <b>Admin</b></i></a>
+              </li>
+              {% endif %}
+              <!-- <li class="nav-item">
+                <a class="nav-link" href="/about"><b>About us</b></a>
+              </li> -->
+              <!-- {% comment %} <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+              </li> {% endcomment %} -->
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <hr/>
+</body>
+</html>

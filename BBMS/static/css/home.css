@@ -1,0 +1,28 @@
+
+.top{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.midimage
+{
+  margin-bottom: 0px;
+  background-image: url('{% static "images/this.png" %}');
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+}
+
+.foot{
+  background-color: yellow;
+  padding: 20px;
+}
+.midtext{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+
+}
