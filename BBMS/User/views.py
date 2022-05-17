@@ -5,6 +5,7 @@ from .forms import UserRegistrationForm,UserLoginForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import Group,User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def UserRegistration(request):
@@ -98,11 +99,11 @@ def UserLogin(request):
         print(requestfrom)
         if requestfrom == "clientloginform":
             usergroup = Group.objects.get(name='Client')
-            homepage = 'User/client_dashboard.html'
+            homepage = '/client/client-dash/'
             redirecturl = "/client/login/"
         else:
             usergroup = Group.objects.get(name='Blood Bank Manager')
-            homepage = 'Admin/admin_home.html'
+            homepage = '/admin/admin-dash/'
             redirecturl = "/admin/login/"
 
         
@@ -115,7 +116,7 @@ def UserLogin(request):
             if client is not None:
                 if client.groups.filter(name=usergroup):
                     login(request,client)
-                    return render(request,homepage)
+                    return redirect(homepage)
                 else:
                     messages.info(request,"Invalid User Group")
                     return redirect(redirecturl)
@@ -131,3 +132,7 @@ def UserLogin(request):
 def UserLogout(request):
     logout(request)
     return redirect('/')
+
+@login_required(login_url="/client/login/")
+def UserHome(request):
+    return render(request,'User/client_dashboard.html')

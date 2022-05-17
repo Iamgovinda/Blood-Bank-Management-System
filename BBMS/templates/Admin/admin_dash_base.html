@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN</title>
+    <title>PATIENT</title>
 
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -66,7 +66,7 @@ body{
 .wrapper .sidebar{
   width: 200px;
   height: 100%;
-  background: 	#343a40;
+  background: #343a40;
   padding: 30px 0px;
   position: fixed;
 }
@@ -92,6 +92,7 @@ body{
 
 .wrapper .sidebar ul li a .fas{
   width: 25px;
+  {% comment %}  {% endcomment %}
 }
 
 .wrapper .sidebar ul li:hover{
@@ -159,32 +160,17 @@ body{
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-danger">
-        <a style="color:white;" class="navbar-brand" href="/"><i class="fab fa-gratipay"></i>&nbsp;<font face = "Comic sans MS" size ="4">Blood Bank Management System</font></a>
-        
-      
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white;" href="/logout">Logout &nbsp; <i class="fas fa-sign-out-alt"></i></a>
-                </li>
-                
-            </ul>
-        </div>
-      </nav>
+{% include 'Blood_Bank/navbar.html' %}
 <br><br>
-<div class="wrapper">
+<div class="wrapper" style="margin-top: -16px;">
     <div class="sidebar">
         
         <ul>
-            <li><a style="text-decoration:none;" href="/"><i class="fas fa-home"></i>Home</a></li>
-            <li><a style="text-decoration:none;" href="/admin-donor"><i class="fas fa-user"></i>Donor</a></li>
-            <li><a style="text-decoration:none;" href="/admin-patient"><i class="fas fa-user-injured"></i>Patient</a></li>
-            <li><a style="text-decoration:none;" href="/admin-donation"><i class="fas fa-hand-holding-medical"></i>Donations</a></li>
-            <li><a style="text-decoration:none;" href="/admin-request"><i class="fas fa-sync-alt"></i>Blood Requests</a></li>
-            <li><a style="text-decoration:none;" href="/admin-request-history"><i class="fas fa-history"></i>Request History</a></li>
-            <li><a style="text-decoration:none;" href="/admin-blood"><i class="fas fa-hand-holding-water"></i>Blood Stock</a></li>
-           
+            <li><a style="text-decoration:none;" href="#"><i class="fas fa-home"></i>Home</a></li>
+            <li><a style="text-decoration:none;" href="/patient/make-request"><i class="fas fa-sync-alt"></i>Blood Requests</a></li>
+            <li><a style="text-decoration:none;" href="/patient/my-request"><i class="fas fa-history"></i>Donation Requests</a></li>
+            <li><a style="text-decoration:none;" href="/patient/my-request"><i class="fas fa-history"></i>Stocks</a></li>
+
         </ul> 
 
     </div>
@@ -199,11 +185,9 @@ body{
 
     </div>
 </div>
-<!--
-developed By : sumit kumar
-facebook : fb.com/sumit.luv
-youtube : youtube.com/lazycoders
--->
+<br>
+
+
 <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -212,3 +196,4 @@ youtube : youtube.com/lazycoders
 
 </body>
 </html>
+
