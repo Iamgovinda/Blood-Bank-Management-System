@@ -1,0 +1,49 @@
+{% extends 'Blood_Bank/base.html' %}
+{% load static %}
+    {% block css %}
+    .top{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+    .midimage
+    {
+      margin-bottom: 0px;
+      background-image: url('{% static "images/this.png" %}');
+      background-size: cover;
+      background-repeat: no-repeat;
+      
+    }
+    
+    .foot{
+      background-color: red;
+      padding: 20px;
+    }
+    .midtext{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    
+    }
+    
+    {% endblock css %}
+    {% block content %}
+      <div class="midimage">
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      </div>
+      <div class="midtext">
+        <br><br><br>
+        <strong>{{quote}}</strong>
+      </div>
+      <br><br><br>
+
+
+    
+    <div class="foot">
+      {% include "Blood_Bank/footer.html" %}
+    </div>
+    {% endblock content %}
+

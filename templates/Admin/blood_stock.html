@@ -1,0 +1,140 @@
+{% extends 'Admin/admin_dash_base.html' %}
+{% block content %}
+<div class="container">
+    <br>
+    <hr>
+    <h3 style = "text-align:center;"><b>Blood-Stock</b></h3>
+    <hr>
+    <div class="row" style="margin-top: 28px;">
+        <div class="col-sm-3">
+          <div class="card" style="background-color: #e4e4e4;">
+            <div class="card-body">
+                <div class="blood">
+                    <h2>A+ <i class="fas fa-tint" style="color: red;"></i></h2>
+                </div><br><br>
+                <div>
+                   <b> {{A1}}</b>
+                </div>                            
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                
+                <div class="card-body" style="background-color: #e4e4e4;">
+                    <div class="blood">
+                        <h2>B+ <i class="fas fa-tint" style="color: red;"></i></h2>
+                    </div><br><br>
+                    <div>
+                     <b> {{B1}}</b>
+                    </div>                            
+                </div>
+              </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card " style="background-color: #e4e4e4;">
+                <div class="card-body">
+                    <div class="blood">
+                        <h2>O+ <i class="fas fa-tint" style="color: red;"></i></h2>
+                    </div><br><br>
+                    <div>
+                     <b> {{O1}}</b>
+                    </div>                            
+                </div>
+              </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="card " style="background-color: #e4e4e4;">
+                <div class="card-body">
+                    <div class="blood">
+                        <h2>AB+ <i class="fas fa-tint" style="color: red;"></i></h2>
+                    </div><br><br>
+                    <div>
+                      <b>{{AB1}}</b>
+                    </div>                            
+                </div>
+              </div>
+          </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="card " style="background-color: #e4e4e4;">
+            <div class="card-body">
+                <div class="blood">
+                    <h2>A- <i class="fas fa-tint" style="color: red;"></i></h2>
+                </div><br><br>
+                <div>
+                 <b> {{A2}}</b>
+                </div>                            
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card " style="background-color: #e4e4e4;">
+                <div class="card-body">
+                    <div class="blood">
+                        <h2>B- <i class="fas fa-tint" style="color: red;"></i></h2>
+                    </div><br><br>
+                    <div>
+                      <b>{{B2}}</b>
+                    </div>                            
+                </div>
+              </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card " style="background-color: #e4e4e4;">
+                <div class="card-body">
+                    <div class="blood">
+                        <h2>O- <i class="fas fa-tint" style="color: red;"></i></h2>
+                    </div><br><br>
+                    <div>
+                     <b> {{O2}}</b>
+                    </div>                            
+                </div>
+              </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="card " style="background-color: #e4e4e4;">
+                <div class="card-body">
+                    <div class="blood">
+                        <h2>AB- <i class="fas fa-tint" style="color: red;"></i></h2>
+                    </div><br><br>
+                    <div>
+                      <b>{{AB2}}</b>
+                    </div>                            
+                </div>
+              </div>
+          </div>
+      </div>
+<hr>
+<hr>
+<br>
+<h3 class="text-center"><br>Update Blood Unit<br></h3>
+<hr><br>
+<div class="xyz" style = "display: table; margin-right: auto; margin-left: auto;" >
+
+    <form class="form-inline" method="POST" action="/admin/blood-update/">
+        {% csrf_token %}
+        <div class="form-group mx-sm-3 mb-6">
+
+            <select name="bloodgroup" class="form-control">
+                <option disabled="disabled" selected="selected"><b>Choose Blood Group <hr></b></option>
+                <option>A+</option>
+                <option>A-</option>  
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+                <option>O+</option>
+                <option>O-</option>
+            </select>
+          </div>
+        <div class="form-group mx-sm-3 mb-6">
+
+          <input type="number" class="form-control" name="unit" placeholder="Unit in ML">
+        </div>
+        <button type="submit" class="btn btn-danger mb-1">Update</button>
+      </form>
+</div>
+{% endblock %}

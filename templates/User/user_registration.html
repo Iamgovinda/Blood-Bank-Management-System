@@ -1,0 +1,89 @@
+{% extends 'Blood_Bank/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<section class="h-100 h-custom" style="background-color: rgb(37, 173, 155);">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-7">
+            <img src='{% static "/images/back6.png" %}' class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
+            <div class="card-body p-4 p-md-5 m-5" style="padding-top:200px;">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">&nbsp;&nbsp;&nbsp;&nbsp;Registration Your Info</h3>
+              <form class="mx-1 mx-md-4" method="post" action="/client/registration/">
+                {% csrf_token %}
+              
+                <div class="d-flex flex-row align-items-center mb-4" style="font-weight:bolder;">
+                  
+                  <div class="form-outline flex-fill mb-0">
+                    <!-- <label class="form-label" for="form3Example1c"><b>First Name</b></label><br> -->
+                    <!-- <input type="text" id="form3Example1c" name="firstName" class="form-control" /> -->
+                    {{cregform.first_name | as_crispy_field  }}
+                  </div>
+                </div>
+              
+                
+                <div class="d-flex flex-row align-items-center mb-4" style="font-weight:bolder;">
+                  
+                  <div class="form-outline flex-fill mb-0">
+                    <!-- <label class="form-label" for="form3Example1c"><b>Last Name</b></label><br> -->
+                    <!-- <input type="text" id="form3Example1c" name="lastName" class="form-control" /> -->
+                    {{cregform.last_name | as_crispy_field }}
+                  </div>
+                </div>
+              
+                <div class="d-flex flex-row align-items-center mb-4" style="font-weight:bolder;">
+                  
+                  <div class="form-outline flex-fill mb-0">
+                    <!-- <label class="form-label" for="form3Example1c"><b>Email</b></label><br> -->
+                    <!-- <input type="email" id="form3Example1c" name="email" class="form-control" /> -->
+                    {{cregform.email | as_crispy_field }}
+                  </div>
+                </div>
+              
+                <div class="d-flex flex-row align-items-center mb-4" style="font-weight:bolder;">
+                  
+                  <div class="form-outline flex-fill mb-0">
+                    <!-- <label class="form-label" for="form3Example3c"><b>Username</b></label><br> -->
+                    <!-- <input type="text" id="form3Example3c" name="userName" class="form-control" /> -->
+                    {{cregform.username | as_crispy_field }}
+                    
+                  </div>
+                </div>
+              
+                <div class="d-flex flex-row align-items-center mb-4" style="font-weight:bolder;">
+                  
+                  <div class="form-outline flex-fill mb-0">
+                    <!-- <label class="form-label" for="form3Example4c"><b>Password</b></label><br> -->
+                    <!-- <input type="password" id="form3Example4c" name="password1" class="form-control" /> -->
+                    {{cregform.password1 | as_crispy_field }}
+                    
+                  </div>
+                </div>
+              
+                <div class="d-flex flex-row align-items-center mb-4" style="font-weight:bolder;">
+                  <div class="form-outline flex-fill mb-0">
+                    <!-- <label class="form-label" for="form3Example4cd"><b>Repeat your password</b></label><br> -->
+                    <!-- <input type="password" id="form3Example4cd" name="password2" class="form-control" /> -->
+                    {{cregform.password2| as_crispy_field }}
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                  <button type="submit" class="btn btn-outline-dark btn-lg px-5 mb-0">Register</button>
+                </div>
+  
+                <p style="color:red;">{% for message in messages %}
+                  {{message}}
+                  {% endfor %}</p>
+              
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
+
+

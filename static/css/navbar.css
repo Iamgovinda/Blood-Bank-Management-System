@@ -1,0 +1,25 @@
+.logo
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgleft img{
+    border-radius: 80%;
+    height: 6vh;
+}
+.nav-item .nav-link{
+    font-size: 20px;
+    color:white;
+}
+
+.fas{
+    color:white;
+    /* background-color: white; */
+}
+
+
+
+  

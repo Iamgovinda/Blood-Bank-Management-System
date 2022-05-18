@@ -1,0 +1,223 @@
+*{
+	margin:auto;
+	padding:auto;
+}
+
+.top{
+	width:100%;
+	background-color:#2FA5EB !important;
+	border-bottom:2px solid #f0f0f0;
+}
+
+
+.top div{
+	width:1200px;
+	color:#fff;
+	background-color:#2FA5EB !important;
+	font-family:calibri;
+	padding:10px;
+	text-align:right;
+}
+
+
+.logo{
+	width:100%;
+	background-color:#f0f0f0;
+	border-bottom:2px solid #f0f0f0;
+}
+
+.logo div{
+	width:1200px;
+	background-color:#f0f0f0;
+	font-family:calibri;
+	padding:10px;
+	text-align:left;
+}
+
+.logo div table a{
+	padding:10px;
+	text-decoration:none;
+	color:gray;
+}
+
+.middle{
+	width:100%;
+	border-bottom:2px solid #f0f0f0;
+}
+.middle div{
+	width:1200px;
+	height:400px;
+	font-family:calibri;
+}
+.middle div p{
+	width:1000px;
+	font-weight:bold;
+	height:300px;
+	color:#f0f0f0;
+	opacity:0.2;
+	font-size:50px;
+	background-color:#000;
+}
+
+.bottom_up{
+	width:100%;
+	background-color:#f0f0f0;
+	border-bottom:2px solid #f0f0f0;
+}
+.bottom_up div{
+	padding-top:20px;
+	width:1200px;
+	text-align:center;
+	background-color:#f0f0f0;
+	font-family:forte;
+	font-size:30px;
+	padding-bottom:20px;
+}
+.bottom_up div table{
+	padding-top:30px;
+	font-size:30px;
+	width:1100px;
+	text-align:center;
+	background-color:#f0f0f0;
+	font-family:calibri;
+	
+}
+
+input[type="text"]{
+	padding:12px;
+	width:250px;
+}
+select{
+	padding:12px;
+	width:250px;
+}
+textarea{
+	padding:50px;
+	width:550px;
+}
+button{
+	width:550px;
+	padding:10px;
+	color:#fff;
+	font-size:20px;
+	background-color:#2FA5EB !important;
+}
+/* add appropriate colors to admin, Doctor and Nurse, and Patient buttons */
+/* style inputs and link buttons */
+input,
+.btn {
+  width: 20%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 5px 0;
+  opacity: 0.85;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none; /* remove underline from anchors */
+}
+
+input:hover,
+.btn:hover {
+  opacity: 1;
+}
+
+.Ad {
+	background-color: #3B5998;
+	color: white;
+  }
+  
+.Doctor {
+	background-color: #55ACEE;
+	color: white;
+  }
+  
+.Receptionist {
+	background-color: #dd4b39;
+	color: white;
+  }
+.Patient {
+	background-color: #1ae9d1a1;
+	color: white;
+  }
+
+
+.nav_down{
+	width:100%;
+	background-color:#2FA5EB !important;
+	border-bottom:2px solid #f0f0f0;
+}
+.nav_down div{
+	width:1200px;
+	color:#fff;
+	background-color:#000;
+	font-family:calibri;
+	padding:10px;
+	text-align:left;
+}
+.sidebar{
+	position: fixed;
+	height: 100%;
+	width: 240px;
+	background-color: #999dad;
+	transition: all 0.5s ease;
+  }
+  .sidebar.active{
+	width: 60px;
+  }
+  .sidebar .logo-details{
+	height: 80px;
+	display: flex;
+	align-items: center;
+  }
+  .sidebar .logo-details i{
+	font-size: 28px;
+	font-weight: 500;
+	color: #fff;
+	min-width: 60px;
+	text-align: center
+  }
+  .sidebar .logo-details .logo_name{
+	color: #fff;
+	font-size: 24px;
+	font-weight: 500;
+  }
+  /*distance from the top title of sidebar*/
+  .sidebar .nav-links{
+	margin-top: 10px;
+  }
+  .sidebar .nav-links li{
+	position: relative;
+	list-style: none;
+	height: 50px;
+  }
+  /*selected hover sidebar features*/
+  .sidebar .nav-links li a{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	transition: all 0.4s ease;
+  }
+  .sidebar .nav-links li a.active{
+	background: #2FA5EB;
+  }
+  .sidebar .nav-links li a:hover{
+	background: #2FA5EB;
+  }
+  
+
+  /*sidebar name */
+  .sidebar .nav-links li a .links_name{
+	color: #fff;
+	font-size: 15px;
+	font-weight: 400;
+	white-space: nowrap;
+  }
+  .middle2{
+	width:65%;
+	border-bottom:2px solid #f0f0f0;
+	font-size:x-large;
+}
