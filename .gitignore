@@ -71,6 +71,8 @@ coverage.xml
 cover/
 ../env/
 
+env/
+
 # Translations
 *.mo
 
