@@ -5,6 +5,7 @@ from User.forms import UserLoginForm
 from django.contrib.auth.decorators import login_required
 from Blood import models
 from Blood.models import Stock
+from User.decorators import role_required
 
 
 # Create your views here.
@@ -22,6 +23,7 @@ def AdminLogin(request):
             return render(request,'Admin/admin_login.html',context)
 
 @login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def AdminDash(request):
     context={
         'A1':str(models.Stock.objects.get(bloodgroup="A+").unit) + ' ML',
@@ -35,6 +37,8 @@ def AdminDash(request):
         }
     return render(request,"Admin/admin_dashboard.html",context)
 
+@login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def StockView(request):
     context={
         'A1':str(models.Stock.objects.get(bloodgroup="A+").unit) + ' ML',
@@ -48,12 +52,13 @@ def StockView(request):
         }
     return render(request,"Admin/blood_stock.html",context)
 
+login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def UpdateView(request):
     if request.method=="POST":
         bloodgroup = request.POST.get('bloodgroup')
         unit = request.POST.get('unit')
-        Stock.objects.filter(bloodgroup=bloodgroup).unit = unit
-        Stock.objects.filter(bloodgroup=bloodgroup).save()
-        
-        
+        blood = Stock.objects.get(bloodgroup=bloodgroup)
+        blood.unit = unit
+        blood.save()
         return redirect('/admin/blood-stock/')
