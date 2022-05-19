@@ -118,10 +118,10 @@ def UserLogin(request):
                     login(request,client)
                     return redirect(homepage)
                 else:
-                    messages.info(request,"Invalid User Group")
+                    messages.error(request,"Invalid User Group")
                     return redirect(redirecturl)
             else:
-                messages.info(request,'Invalid credentials')
+                messages.info(request,'Invalid Credential !!!')
                 return redirect(redirecturl)
         else:
             messages.info(request,'Form not valid')
