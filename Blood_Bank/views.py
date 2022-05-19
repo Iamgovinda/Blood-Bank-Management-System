@@ -25,6 +25,41 @@ def AdminLogin(request):
 @login_required(login_url='admin_login')
 @role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def AdminDash(request):
+    x=models.Stock.objects.all()
+    print(x)
+    if len(x)==0:
+        blood1=models.Stock()
+        blood1.bloodgroup="A+"
+        blood1.save()
+
+        blood2=models.Stock()
+        blood2.bloodgroup="A-"
+        blood2.save()
+
+        blood3=models.Stock()
+        blood3.bloodgroup="B+"
+        blood3.save()        
+
+        blood4=models.Stock()
+        blood4.bloodgroup="B-"
+        blood4.save()
+
+        blood5=models.Stock()
+        blood5.bloodgroup="AB+"
+        blood5.save()
+
+        blood6=models.Stock()
+        blood6.bloodgroup="AB-"
+        blood6.save()
+
+        blood7=models.Stock()
+        blood7.bloodgroup="O+"
+        blood7.save()
+
+        blood8=models.Stock()
+        blood8.bloodgroup="O-"
+        blood8.save()
+
     context={
         'A1':str(models.Stock.objects.get(bloodgroup="A+").unit) + ' ML',
         'A2':str(models.Stock.objects.get(bloodgroup="A-").unit) + ' ML',

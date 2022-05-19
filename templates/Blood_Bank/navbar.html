@@ -27,16 +27,27 @@
         
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
+              
+              {% if user.is_authenticated  %}
+              
+                <li class="nav-item">
+                  <div class="logo">
+                    <div class="imgleft">
+                      <img src="{{user.profile.profile_pic.url}}" alt="">
+                    </div>&nbsp;
+                    <div class="bbms">
+                      <a class="navbar-brand" href="#" style="color:#FFFFFF;"><b>{{user.username}}</b></a>
+                    </div>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/client/logout" style="color: white;"><i class="fas fa-sign-out-alt"></i>&nbsp; <b>Logout</b></a>
+                  {% comment %} {{ request.group.name }} {% endcomment %}
+                </li>
+              {% else %}
               <li class="nav-item ">
                 <a class="nav-link" href="/" style="color: white;"><i class="fas fa-home"></i>&nbsp; <b>Home</b><span class="sr-only">(current)</span></a>
               </li>&nbsp;
-              
-              {% if user.is_authenticated %}
-                <li class="nav-item">
-                  <a class="nav-link" href="/client/logout" style="color: white;"><i class="fas fa-sign-out-alt"></i>&nbsp; <b>Logout</b></a>
-                  {{ request.group.name }}
-                </li>
-              {% else %}
               <li class="nav-item">
                 <!-- <i class="fa-duotone fa-users"></i> -->
                 <a class="nav-link" href="/client/login" style="color: white;"><i class="fas fa-users">&nbsp;</i><b>Client</b></a>
