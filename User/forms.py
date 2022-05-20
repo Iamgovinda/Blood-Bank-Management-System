@@ -1,7 +1,8 @@
 # from attr import field
 import email
 from django import forms
-from User.models import User
+from User.models import Profile
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 class UserLoginForm(forms.Form):
@@ -19,5 +20,16 @@ class UserRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
 
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+    class Meta:
+        model = User
+        fields = ['first_name','last_name','username','email']
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_pic','gender','address','mobile','bloodgroup','age']
 
 

@@ -1,29 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User,AbstractBaseUser,AbstractUser
-from User.constants import GENDER_CHOICES
+from User.constants import GENDER_CHOICES,BLOODGROUP_CHOICES
 
 # Create your models here.
 
-class UserModel(models.Model):
+class Profile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     # national_id = models.CharField(primary_key=True, unique=True,max_length=20)
-    first_name = models.CharField(max_length=30, default='')
-    last_name = models.CharField(max_length=30, default='')
-    username = models.CharField(max_length=30,unique=True)
-    profile_pic= models.ImageField(upload_to='profile_pic/Clients/',null=True,blank=True)
-    gender = models.IntegerField(choices=GENDER_CHOICES)
 
-    address = models.CharField(max_length=40)
-    mobile = models.CharField(max_length=20,null=False)
-    email = models.EmailField(max_length=100)
+    profile_pic= models.ImageField(default='default.png',upload_to='profile_pic/')
+    gender = models.IntegerField(choices=GENDER_CHOICES, null=True, blank=True)
 
-    age=models.PositiveIntegerField()
-    bloodgroup=models.CharField(max_length=10)
-    disease=models.CharField(max_length=100)
+    address = models.CharField(max_length=40, default="")
+    mobile = models.CharField(max_length=20,default=0)
 
-    @property
-    def get_name(self):
-        return self.user.first_name+" "+self.user.last_name
+
+    age=models.PositiveIntegerField(null=True, blank=True)
+    bloodgroup=models.CharField(choices=BLOODGROUP_CHOICES,max_length=10)
+    
+
+
     @property
     def get_instance(self):
         return self
