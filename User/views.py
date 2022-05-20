@@ -1,7 +1,8 @@
 from ctypes import create_string_buffer
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .forms import UserRegistrationForm,UserLoginForm
+from User.decorators import role_required
+from .forms import UserRegistrationForm,UserLoginForm,UserProfileForm,UserUpdateForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import Group,User
 from django.contrib import messages
@@ -136,3 +137,25 @@ def UserLogout(request):
 @login_required(login_url="/client/login/")
 def UserHome(request):
     return render(request,'User/client_dashboard.html')
+
+@login_required(login_url='/client/login/')
+@role_required(allowed_roles=['Blood Bank Manager','Client'],redirect_route='#')
+def profile(request):
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST,instance = request.user)
+        p_form = UserProfileForm(request.POST,request.FILES,instance = request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request,"Profile Info Updated Successfully!")
+            return redirect('/client/profile/')
+    else:
+        u_form = UserUpdateForm(instance = request.user)
+        p_form = UserProfileForm(instance = request.user.profile)
+
+    context = {
+        'u_form':u_form,
+        'p_form':p_form
+    }
+
+    return render(request,'User/profile.html',context)

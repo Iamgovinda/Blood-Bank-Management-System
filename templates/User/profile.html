@@ -1,0 +1,95 @@
+
+{% extends 'Blood_Bank/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+body {
+    background:  rgb(37, 173, 155);;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+{% endblock css %}
+{% block content %}
+<div class="container rounded bg-white mt-5 mb-5 align - center " >
+    <div class="row">
+        <div class="col-md-3 border-right bg-success" >
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{user.profile.profile_pic.url}}"><b>{{user.first_name|add:" "|add:user.last_name}} </b></span><span class="text-danger"><b>{{user.email}}</b></span><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right" >
+            <form action="/user/profile/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">
+                        <b>Profile Settings</b>
+                        <hr>
+                        <div class="col-md-12">
+                            {% if messages %}
+                              {% for message in messages %}
+                                <div class="alert alert-success">
+                                  {{ message }}
+                                </div>
+                              {% endfor %}
+                            {% endif %}
+                          </div> 
+                    </legend>
+
+                    {{u_form|crispy}}
+                    {{p_form.mobile | as_crispy_field }}
+                    {{p_form.address | as_crispy_field}}
+                </fieldset>
+                <div class="mt-5 text-center"><button class="btn btn-success profile-button" type="submit">Save Profile</button></div>
+            
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><span><h3><b>Addition Info</b></h3></span></div>
+                {{p_form.gender | as_crispy_field}}
+                {{p_form.profile_pic | as_crispy_field}}
+                {{p_form.bloodgroup | as_crispy_field}}
+                {{p_form.age | as_crispy_field}}
+                </div> 
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock content %}
