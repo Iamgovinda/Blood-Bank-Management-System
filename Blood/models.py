@@ -7,3 +7,5 @@ class Stock(models.Model):
     unit=models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.bloodgroup
+
+
