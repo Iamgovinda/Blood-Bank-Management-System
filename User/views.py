@@ -43,8 +43,8 @@ def UserRegistration(request):
 
     if request.method=='POST':
         clientform = UserRegistrationForm(request.POST)
-        print(clientform.is_valid())
-        usergroup = Group.objects.get(name='Client')
+        
+        # usergroup = Group.objects.get(name='Client')
         if clientform.is_valid():
             data = clientform.cleaned_data
             if data['password1']==data['password2']:
@@ -55,15 +55,17 @@ def UserRegistration(request):
                     messages.info(request,"Email Taken")
                     return redirect('/client/registration/')
                 else:
-                    client = User.objects.create(username=data['username'],email=data['email'],first_name=data['first_name'],last_name=data['last_name'])
-                    client.set_password(data['password1'])
-                    usergroup.user_set.add(client)
-                    client.save()
+                    # client = User.objects.create(username=data['username'],email=data['email'],first_name=data['first_name'],last_name=data['last_name'])
+                    
+                    clientform.save()
+                    # usergroup.user_set.add(client)
                     messages.success(request,"User created")
                     return redirect('/client/login')
             else:
+
                 messages.info(request,"Password not matching")
                 return redirect('/client/registration/')
+        messages.error(request,"Form is not valid")
     return render(request,'User/user_registration.html',{"cregform":cregform})
 
 
@@ -108,7 +110,7 @@ def UserLogin(request):
             redirecturl = "/admin/login/"
 
         
-        print(clientform.is_valid())
+        
         if clientform.is_valid():
             print(clientform.is_valid())
             data = clientform.cleaned_data
@@ -139,7 +141,7 @@ def UserHome(request):
     return render(request,'User/client_dashboard.html')
 
 @login_required(login_url='/client/login/')
-@role_required(allowed_roles=['Blood Bank Manager','Client'],redirect_route='#')
+@role_required(allowed_roles=['Blood Bank Manager','Client'],redirect_route='/')
 def profile(request):
     if request.method == "POST":
         u_form = UserUpdateForm(request.POST,instance = request.user)
@@ -148,7 +150,7 @@ def profile(request):
             u_form.save()
             p_form.save()
             messages.success(request,"Profile Info Updated Successfully!")
-            return redirect('/client/profile/')
+            return redirect('/user/profile/')
     else:
         u_form = UserUpdateForm(instance = request.user)
         p_form = UserProfileForm(instance = request.user.profile)

@@ -9,10 +9,11 @@
     }
     .midimage
     {
-      margin-bottom: 0px;
+
       background-image: url('{% static "images/this.png" %}');
-      background-size: cover;
-      background-repeat: no-repeat;
+      background-repeat:no-repeat;
+      background-size:contain;
+      background-position:center;
       
     }
     
@@ -31,14 +32,19 @@
     
     {% endblock css %}
     {% block content %}
-      <div class="midimage">
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-      </div>
-      <div class="midtext">
+
+
+      <div class="container container-fluid">
+        <div class="midimage">
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+  
+        <div class="midtext">
+          <br><br><br>
+          <strong>{{quote}}</strong>
+        </div>
         <br><br><br>
-        <strong>{{quote}}</strong>
       </div>
-      <br><br><br>
 
 
     

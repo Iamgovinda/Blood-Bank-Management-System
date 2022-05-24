@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User,AbstractBaseUser,AbstractUser
 from User.constants import GENDER_CHOICES,BLOODGROUP_CHOICES
+from PIL import Image
 
 # Create your models here.
 
@@ -25,4 +26,14 @@ class Profile(models.Model):
         return self
     def __str__(self):
         return self.user.first_name
+
+    def save(self):
+        super().save()
+
+        img = Image.open(self.profile_pic.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300,300)
+            img.thumbnail(output_size)
+            img.save(self.profile_pic.path)
 
