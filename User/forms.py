@@ -21,14 +21,11 @@ class UserRegistrationForm(UserCreationForm):
     # password1 = forms.CharField(widget=forms.PasswordInput)
     # password2 = forms.CharField(widget=forms.PasswordInput)
 
-    def save(self,commit=True):
+    def save(self, *args, **kwargs):
         usergroup = Group.objects.get(name='Client')
 
-        user = super().save(commit=False)
+        user = super().save(*args, **kwargs)
         user.set_password(self.cleaned_data["password1"])
-        
-        if commit:
-            user.save()
         usergroup.user_set.add(user)
         return user
 

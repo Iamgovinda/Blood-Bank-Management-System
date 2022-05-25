@@ -50,8 +50,8 @@ body {
 {% endblock css %}
 {% block content %}
 <div class="container rounded bg-white mt-5 mb-5 align - center " >
-    <div class="row">
-        <div class="col-md-3 border-right bg-success" >
+    <div class="row" >
+        <div class="col-md-3 border-right " style="background-color:#25AD9B;" >
             <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{user.profile.profile_pic.url}}"><b>{{user.first_name|add:" "|add:user.last_name}} </b></span><span class="text-danger"><b>{{user.email}}</b></span><span> </span></div>
         </div>
         <div class="col-md-5 border-right" >

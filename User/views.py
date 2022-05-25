@@ -1,17 +1,18 @@
 from ctypes import create_string_buffer
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.http import HttpResponse
 from User.decorators import role_required
 from .forms import UserRegistrationForm,UserLoginForm,UserProfileForm,UserUpdateForm
+from Blood.forms import BloodRequestForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import Group,User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+# from Blood.forms import BloodRequestForm
 
 # Create your views here.
 def UserRegistration(request):
     print("Inside")
-    cregform=UserRegistrationForm()
     # if request.method=='POST':
     #     first_name=request.POST.get('firstName','default value')
     #     last_name=request.POST.get('lastName')
@@ -66,11 +67,12 @@ def UserRegistration(request):
                 messages.info(request,"Password not matching")
                 return redirect('/client/registration/')
         messages.error(request,"Form is not valid")
+    cregform=UserRegistrationForm()
     return render(request,'User/user_registration.html',{"cregform":cregform})
 
 
 def UserLogin(request):
-    clientloginform = UserLoginForm()
+
     # if request.method=="POST":
     #     username=request.POST.get('username')
     #     password=request.POST.get('password')
@@ -115,6 +117,7 @@ def UserLogin(request):
             print(clientform.is_valid())
             data = clientform.cleaned_data
             client = authenticate(username=data['username'],password=data['password'])
+            print(data)
             print(client)
             if client is not None:
                 if client.groups.filter(name=usergroup):
@@ -128,6 +131,8 @@ def UserLogin(request):
                 return redirect(redirecturl)
         else:
             messages.info(request,'Form not valid')
+    else:
+        clientloginform = UserLoginForm()
     return render(request, "User/user_login.html", {"cloginform":clientloginform})
 
 
@@ -161,3 +166,21 @@ def profile(request):
     }
 
     return render(request,'User/profile.html',context)
+
+
+
+def MakeRequest(request):
+    if request.method == "POST":
+        bloodrequestform = BloodRequestForm(request.POST)
+        print(bloodrequestform.is_valid())
+        if bloodrequestform.is_valid():
+            bloodrequestform.save()
+            messages.success(request,"submit successful")
+            return redirect('/client/make-request/')
+        else:
+            messages.error(request,"form is not valid")
+            return HttpResponseRedirect('/client/make-request/')
+        
+    else:
+        bloodrequestform = BloodRequestForm()
+    return render(request,"User/makerequest.html",{"bloodrequestform":bloodrequestform})
