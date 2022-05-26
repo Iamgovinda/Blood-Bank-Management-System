@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import Group,User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from User import models as U_model
+from Blood import models as B_model
 # from Blood.forms import BloodRequestForm
 
 # Create your views here.
@@ -178,9 +180,20 @@ def MakeRequest(request):
             messages.success(request,"submit successful")
             return redirect('/client/make-request/')
         else:
+            print(bloodrequestform.errors)
             messages.error(request,"form is not valid")
             return HttpResponseRedirect('/client/make-request/')
         
     else:
         bloodrequestform = BloodRequestForm()
     return render(request,"User/makerequest.html",{"bloodrequestform":bloodrequestform})
+
+
+def MyRequest(request):
+    client = U_model.Profile.objects.get(user=request.user)
+    print(client)
+    # blood_request = B_model.BloodRequest.objects.all()
+    blood_request = B_model.BloodRequest.objects.filter(request_by_client=client)
+    # print(blood_request)
+    # print(blood_request)
+    return render(request,"User/mybloodrequest.html",{'bloodrequest':blood_request})

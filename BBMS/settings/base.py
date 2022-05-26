@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'User',
     'Blood',
+    'Blood_Bank',
     'crispy_forms',
     'widget_tweaks',
 ]

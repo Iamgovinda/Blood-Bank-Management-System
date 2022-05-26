@@ -1,0 +1,46 @@
+{% extends 'User/client_dash_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<br><br>
+<div class="mx-auto" style="width: 80vw;">
+    <H4 class="text-center" ><strong>My Blood Request</strong></H4>
+    <table class="table table-light table-hover table-bordered table-striped">
+        <thead class="bg-danger">
+            <tr>
+                <th scope="col">Patient Name</th>
+                <th scope="col">Patient Age</th>
+                <th scope="col">Blood Group</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in bloodrequest %}
+            <tr>
+                <td> {{t.patient_name}}</td>
+                <td>{{t.patient_age}}</td>
+                <td>{{t.patient_bloodgroup}}</td>
+                <td>{{t.unit}}</td>
+                <td>{{t.request_date}}</td>
+                {% if t.status == 'Approved' %}
+                <td><span class="label warning"> Approved</span></td>
+                
+                {% elif t.status == 'Rejected' %}
+                <td><span class="label success">Rejected</span></td>
+                {% else %}
+                <td><span style="color: white;margin-left: 0px;" class="label dark">Pending</span></td>
+                {% endif %} 
+                
+
+            </tr>
+            {% endfor %} 
+
+        </tbody>
+    
+    </table>
+</div>
+{% endblock content %}

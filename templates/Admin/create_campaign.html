@@ -1,0 +1,38 @@
+{% extends 'Admin/admin_dash_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<section class="h-100 h-custom" style="background-color: rgb(37, 173, 155);">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+            <div class="card rounded-7">
+            <img src='{% static "/images/back6.png" %}' class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
+            <div class="card-body p-4 p-md-5 m-5" style="padding-top:200px;">
+                <h2 class="mb-2 pb-2 pb-md-0 mb-md-5 px-md-2 text-center" style="color:red;"><hr>Create Campaign<hr></h2>
+                
+                <form class="mx-1 mx-md-4" method="post" action="/client/make-request/" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{campaignform|crispy}}
+                <button type="submit" class="btn btn-danger">Create Campaign</button>
+                </form><br><br>
+                <div class="col-md-12">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div> 
+
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+{% endblock content %}

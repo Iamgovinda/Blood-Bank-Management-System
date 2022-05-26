@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from Blood import models
 from Blood.models import Stock
 from User.decorators import role_required
+from Blood_Bank.forms import CampaignForm
 
 
 # Create your views here.
@@ -97,3 +98,11 @@ def UpdateView(request):
         blood.unit = unit
         blood.save()
         return redirect('/admin/blood-stock/')
+
+login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
+def CreateCampaign(request):
+    campaignform = CampaignForm()
+    print(campaignform)
+    return render(request,'Admin/create_campaign.html',{'campaignform':campaignform})
+

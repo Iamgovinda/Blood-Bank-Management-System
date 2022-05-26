@@ -8,6 +8,6 @@ urlpatterns = [
     path('logout/',views.UserLogout,name="User_Logout"),
     path('client-dash/',views.UserHome,name="Client_Dashboard"),
     path('make-request/',views.MakeRequest, name="Make_Request"),
-    # path('my-requests/',views,name="My_Requests"),
+    path('my-request/',views.MyRequest,name="My_Requests"),
     
 ]

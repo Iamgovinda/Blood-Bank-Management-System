@@ -1,6 +1,7 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 from User import models as U_models
+
 from User.constants import BLOODGROUP_CHOICES,GENDER_CHOICES
 # Create your models here.
 
@@ -14,7 +15,7 @@ class BloodRequest(models.Model):
     patient_name = models.CharField(max_length=30)
     patient_age = models.PositiveIntegerField()
     patient_gender = models.IntegerField(choices=GENDER_CHOICES, null=True, blank=True)
-    patient_bloodgroup = models.IntegerField(choices=BLOODGROUP_CHOICES)
+    patient_bloodgroup = models.CharField(max_length=10, choices=BLOODGROUP_CHOICES)
     email = models.EmailField(max_length=100,null=True)
     mobile = models.CharField(default='+9779800000000',null=True,max_length=15)
     unit = models.PositiveIntegerField(default=0)
@@ -24,5 +25,8 @@ class BloodRequest(models.Model):
 
 
     def __str__(self):
-        return self.bloodgroup
+        return self.patient_bloodgroup
+
+
+
 

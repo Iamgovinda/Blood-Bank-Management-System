@@ -10,7 +10,8 @@
           <div class="card rounded-7">
             <img src='{% static "/images/back6.png" %}' class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
             <div class="card-body p-4 p-md-5 m-5" style="padding-top:200px;">
-              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-center">Blood Request Form</h3>
+              <h2 class="mb-2 pb-2 pb-md-0 mb-md-5 px-md-2 text-center" style="color:red;"><hr>Blood Request Form<hr></h2>
+              
               <form class="mx-1 mx-md-4" method="post" action="/client/make-request/" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{bloodrequestform|crispy}}
@@ -25,20 +26,6 @@
                   {% endfor %}
                 {% endif %}
               </div> 
-              {% if form.errors %}
-            {% for field in form %}
-                {% for error in field.errors %}
-                    <div class="alert alert-danger">
-                        <strong>{{ error|escape }}</strong>
-                    </div>
-                {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-                <div class="alert alert-danger">
-                    <strong>{{ error|escape }}</strong>
-                </div>
-            {% endfor %}
-        {% endif %}
 
             </div>
           </div>
