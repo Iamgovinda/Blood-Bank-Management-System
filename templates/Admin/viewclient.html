@@ -1,0 +1,51 @@
+{% extends 'Admin/admin_dash_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+<br><br>
+<div class="mx-auto" style="width: 80vw;">
+    <H4 class="text-center" ><strong>Client Details</strong></H4>
+    <table class="table table-light table-hover table-bordered table-striped">
+        <thead class="bg-danger">
+            <tr>
+                <th scope="col">Client Name</th>
+                <th scope="col">Image</th>
+                <th scope="col">Email</th>
+                <th scope="col">Blood Group</th>
+                <th scope="col">Actions</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in client %}
+            <tr>
+                <td> {{t.user.username}}</td>
+                <td><img src="{{t.profile_pic.url}}" alt="" height="40px" width="40px"></td>
+                <td>{{t.user.email}}</td>
+                <td>{{t.bloodgroup}}</td>
+                <td>
+                    <button class="btn btn-info"><a href="{% url 'update_client' t.user.id %}" style="text-decoration:none; color:white;">Edit</a></button>
+                    &nbsp 
+                    <button class="btn btn-danger">Delete</button>
+
+                </td>
+                {% comment %} {% if t.status == 'Approved' %}
+                <td><span class="label warning"> Approved</span></td>
+                
+                {% elif t.status == 'Rejected' %}
+                <td><span class="label success">Rejected</span></td>
+                {% else %}
+                <td><span style="color: white;margin-left: 0px;" class="label dark">Pending</span></td>
+                {% endif %} 
+                 {% endcomment %}
+
+            </tr>
+            {% endfor %} 
+
+        </tbody>
+    
+    </table>
+</div>
+{% endblock content %}

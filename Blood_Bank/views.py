@@ -1,3 +1,5 @@
+from tokenize import group
+from unicodedata import name
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 import random
@@ -7,7 +9,10 @@ from Blood import models
 from Blood.models import Stock
 from User.decorators import role_required
 from Blood_Bank.forms import CampaignForm
-
+from django.contrib import messages
+from User.models import Profile
+from django.contrib.auth.models import User,Group
+from User.forms import *
 
 # Create your views here.
 
@@ -26,6 +31,10 @@ def AdminLogin(request):
 @login_required(login_url='admin_login')
 @role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def AdminDash(request):
+    # user = User.objects.get(id=2)
+    # print(user.username)
+    # print(type(user))
+    # print(type(user.username))
     x=models.Stock.objects.all()
     print(x)
     if len(x)==0:
@@ -100,9 +109,54 @@ def UpdateView(request):
         return redirect('/admin/blood-stock/')
 
 login_required(login_url='admin_login')
-@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/admin/admin-dash/")
 def CreateCampaign(request):
-    campaignform = CampaignForm()
-    print(campaignform)
+    if request.method == "POST":
+        campaignform = CampaignForm(request.POST)
+        if campaignform.is_valid():
+            campaignform.save()
+            return redirect('Create_Campaign')
+        else:
+            messages.error(request,"Form is not valid")
+            return redirect('Create_Campaign')
+    else:
+        campaignform = CampaignForm()
     return render(request,'Admin/create_campaign.html',{'campaignform':campaignform})
 
+login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/admin/admin-dash/")
+def ViewClients(request):
+    # usergroup = Group.objects.get(name='Client')
+    # client = User.groups.filter(name=usergroup)
+    clients = []
+    userprofiles = Profile.objects.all()
+    for profile in userprofiles:
+        if profile.user.groups.filter(name='Client'):
+            clients.append(profile)
+    
+    return render(request,"Admin/viewclient.html",{'client':clients})
+
+login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/admin/admin-dash/")
+def UpdateClient(request,pk):
+    if request.method == "POST":
+        user = User.objects.get(id=pk)
+        u_form = UserUpdateForm(request.POST,instance = user)
+        p_form = UserProfileForm(request.POST,request.FILES,instance = user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request,"Profile Info Updated Successfully!")
+            return redirect('/admin/update-client/'+str(pk))
+    
+    user = User.objects.get(id=pk)
+    u_form = UserUpdateForm(instance = user)
+    p_form = UserProfileForm(instance = user.profile)
+
+    context = {
+        'u_form':u_form,
+        'p_form':p_form,
+        'user': user
+    }
+
+    return render(request,'Admin/updateclient.html',context)

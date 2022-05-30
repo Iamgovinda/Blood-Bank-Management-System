@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from User import models as U_model
 from Blood import models as B_model
+from User.models import Profile
 # from Blood.forms import BloodRequestForm
 
 # Create your views here.
@@ -149,25 +150,32 @@ def UserHome(request):
 
 @login_required(login_url='/client/login/')
 @role_required(allowed_roles=['Blood Bank Manager','Client'],redirect_route='/')
-def profile(request):
+def profile(request,pk): 
     if request.method == "POST":
-        u_form = UserUpdateForm(request.POST,instance = request.user)
-        p_form = UserProfileForm(request.POST,request.FILES,instance = request.user.profile)
+        user = User.objects.get(id=pk)
+        u_form = UserUpdateForm(request.POST,instance = user)
+        p_form = UserProfileForm(request.POST,request.FILES,instance = user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
             messages.success(request,"Profile Info Updated Successfully!")
-            return redirect('/user/profile/')
-    else:
-        u_form = UserUpdateForm(instance = request.user)
-        p_form = UserProfileForm(instance = request.user.profile)
+            return redirect('/user/profile/'+str(pk))
+    
+    user = User.objects.get(id=pk)
+    u_form = UserUpdateForm(instance = user)
+    p_form = UserProfileForm(instance = user.profile)
 
     context = {
         'u_form':u_form,
-        'p_form':p_form
+        'p_form':p_form,
+        'user': user
     }
 
     return render(request,'User/profile.html',context)
+
+
+
+    
 
 
 

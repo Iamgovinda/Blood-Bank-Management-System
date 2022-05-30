@@ -9,13 +9,14 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-lg-8 col-xl-6">
             <div class="card rounded-7">
-            <img src='{% static "/images/back6.png" %}' class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
+            {% comment %} <img src='{% static "/images/back6.png" %}' class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo"> {% endcomment %}
             <div class="card-body p-4 p-md-5 m-5" style="padding-top:200px;">
                 <h2 class="mb-2 pb-2 pb-md-0 mb-md-5 px-md-2 text-center" style="color:red;"><hr>Create Campaign<hr></h2>
                 
-                <form class="mx-1 mx-md-4" method="post" action="/client/make-request/" enctype="multipart/form-data">
+                <form class="mx-1 mx-md-4" method="post" action="/admin/create-campaign/" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{campaignform|crispy}}
+                  {{campaignform|crispy}}
+                
                 <button type="submit" class="btn btn-danger">Create Campaign</button>
                 </form><br><br>
                 <div class="col-md-12">
@@ -32,7 +33,18 @@
             </div>
         </div>
         </div>
+        <div class="card" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
     </div>
+
     </section>
+
+
 
 {% endblock content %}

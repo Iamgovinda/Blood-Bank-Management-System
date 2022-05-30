@@ -26,7 +26,8 @@ urlpatterns = [
     path('',views.home, name='home'),
     path('client/',include('User.urls')),
     path('admin/',include('Blood_Bank.urls')),
-    path('user/profile/',user_views.profile,name='user_profile')
+    path('user/profile/<int:pk>/',user_views.profile,name='user_profile'),
+    # path('user/user-update/',user_views.profileupdate,name='user_update')
 ]
 
 

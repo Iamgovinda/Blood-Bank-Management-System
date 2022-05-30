@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PATIENT</title>
+    <title>ADMIN</title>
 
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -52,7 +52,7 @@
 }
 
 body{
-   background-color: #f3f5f9;
+   background-color: #25AD9B;
 }
 .bg-danger {
     background-color: #ff0018!important;
@@ -158,7 +158,7 @@ body{
 
     </style>
 </head>
-<body>
+<body style="background:#25AD9B;">
 
 {% include 'Blood_Bank/navbar.html' %}
 <br><br>
@@ -167,12 +167,12 @@ body{
         
         <ul>
             <li><a style="text-decoration:none;" href="/admin/admin-dash/"><i class="fas fa-home"></i>Home</a></li>
+            <li><a style="text-decoration:none;" href="{% url 'view_client' %}"><i class="fas fa-sync-alt"></i>Clients</a></li>
             <li><a style="text-decoration:none;" href="#"><i class="fas fa-sync-alt"></i>Blood Requests</a></li>
             <li><a style="text-decoration:none;" href="#"><i class="fas fa-history"></i>Donation Requests</a></li>
             <li><a style="text-decoration:none;" href="/admin/blood-stock"><i class="fas fa-history"></i>Stocks</a></li>
             <li><a style="text-decoration:none;" href="{% url 'Create_Campaign' %}"><i class="fas fa-sync-alt"></i>Campaigns</a></li>
             <li><a style="text-decoration:none;" href="#"><i class="fas fa-sync-alt"></i>History</a></li>
-
         </ul> 
 
     </div>

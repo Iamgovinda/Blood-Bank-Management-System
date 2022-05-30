@@ -6,5 +6,7 @@ urlpatterns = [
     path('admin-dash/',views.AdminDash,name="admin_dashboard"),
     path('blood-stock/',views.StockView,name="stock_view"),
     path('blood-update/',views.UpdateView,name="blood_update"),
-    path('create-campaign/',views.CreateCampaign,name="Create_Campaign")
+    path('create-campaign/',views.CreateCampaign,name="Create_Campaign"),
+    path('view-clients/',views.ViewClients,name="view_client"),
+    path('update-client/<int:pk>/',views.UpdateClient,name="update_client"),
 ]
