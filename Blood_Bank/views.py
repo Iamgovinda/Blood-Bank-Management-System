@@ -13,7 +13,8 @@ from django.contrib import messages
 from User.models import Profile
 from django.contrib.auth.models import User,Group
 from User.forms import *
-
+from Blood_Bank.models import Campaign
+from Blood_Bank.forms import CampaignForm
 # Create your views here.
 
 def home(request):
@@ -111,6 +112,7 @@ def UpdateView(request):
 login_required(login_url='admin_login')
 @role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/admin/admin-dash/")
 def CreateCampaign(request):
+    campaigns = Campaign.objects.all()
     if request.method == "POST":
         campaignform = CampaignForm(request.POST)
         if campaignform.is_valid():
@@ -121,7 +123,8 @@ def CreateCampaign(request):
             return redirect('Create_Campaign')
     else:
         campaignform = CampaignForm()
-    return render(request,'Admin/create_campaign.html',{'campaignform':campaignform})
+        print(campaignform)
+    return render(request,'Admin/create_campaign.html',{'campaignform':campaignform,'campaigns':campaigns})
 
 login_required(login_url='admin_login')
 @role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/admin/admin-dash/")
@@ -160,3 +163,26 @@ def UpdateClient(request,pk):
     }
 
     return render(request,'Admin/updateclient.html',context)
+
+def DeleteCampaign(request,pk):
+    Campaign.objects.filter(id=pk).delete()
+    return redirect('/admin/create-campaign/')
+
+def EditCampaign(request,pk):
+    campaign = Campaign.objects.get(id=pk)
+    campaigns = Campaign.objects.all()
+    if request.method == "POST":
+        campaignform = CampaignForm(request.POST,instance=campaign)
+        print("Here")
+        if campaignform.is_valid():
+            campaignform.save()
+            return redirect('/admin/create-campaign/')
+        else:
+            return HttpResponse('Form not valid')
+    else:
+        campaignform = CampaignForm(instance=campaign)
+    return render(request,"Admin/edit_campaign.html",{'campaignform':campaignform,'campaigns':campaigns,'id':pk})
+
+    
+    
+    
