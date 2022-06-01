@@ -156,13 +156,26 @@ def UpdateClient(request,pk):
     u_form = UserUpdateForm(instance = user)
     p_form = UserProfileForm(instance = user.profile)
 
+
+    if request.user_role == "Client":
+        extendbase = "User/client_dash_base.html"
+    else:
+        extendbase = "Admin/admin_dash_base.html"
+
+
     context = {
         'u_form':u_form,
         'p_form':p_form,
-        'user': user
+        'user': user,
+        'extendbase':extendbase
     }
 
     return render(request,'Admin/updateclient.html',context)
+
+def DeleteClient(request,pk):
+    user = User.objects.get(id=pk)
+    user.delete()
+    return redirect('/admin/view-clients/')
 
 def DeleteCampaign(request,pk):
     Campaign.objects.filter(id=pk).delete()

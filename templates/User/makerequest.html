@@ -15,6 +15,7 @@
               <form class="mx-1 mx-md-4" method="post" action="/client/make-request/" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{bloodrequestform|crispy}}
+                <input type="hidden" name="requestfromuser" value="{{request.user}}">
                 <button type="submit" class="btn btn-danger">Make Request</button>
               </form><br><br>
               <div class="col-md-12">

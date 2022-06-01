@@ -11,4 +11,6 @@ urlpatterns = [
     path('edit-campaign/<int:pk>/',views.EditCampaign,name="edit_campaign"),
     path('delete-campaign/<int:pk>/',views.DeleteCampaign,name="delete_campaign"),
     path('update-client/<int:pk>/',views.UpdateClient,name="update_client"),
+    path('delete-client/<int:pk>/',views.DeleteClient,name="delete_client"),
+    
 ]

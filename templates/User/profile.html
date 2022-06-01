@@ -1,11 +1,10 @@
-
 {% extends 'Blood_Bank/base.html' %}
+{% comment %} {% extends {{extendbase}} %} {% endcomment %}
+{% comment %} {% extends 'Blood_Bank/base.html' %} {% endcomment %}
+
 {% load crispy_forms_tags %}
 
 {% block css %}
-body {
-    background-color: #25AD9B;
-}
 
 .form-control:focus {
     box-shadow: none;
