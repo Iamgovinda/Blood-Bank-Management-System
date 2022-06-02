@@ -27,21 +27,25 @@
                 <td>{{t.patient_bloodgroup}}</td>
                 <td>{{t.unit}}</td>
                 <td>{{t.request_date}}</td>
-                {% comment %} {% if t.status == 'Approved' %}
+                {% if t.status == 'Approved' %}
                 <td><span class="label warning">Approved</span></td>
+                <td>
+                    <span class="label success">Your Request is Approved!</span>
+                </td>
                 {% elif t.status == 'Rejected' %}
                 <td><span class="label success">Rejected</span></td>
+                <td>
+                    <span class="label success">Your Request is Rejected!</span>
+                </td>
                 {% else %}
                 <td><span style="color: black;margin-left: 0px; font-weight:bolder;" class="label dark">Pending</span></td>
-                {% endif %}  {% endcomment %}
-                <td><span style="color: black;margin-left: 0px; font-weight:bolder;" class="label dark">{{status}}</span></td>
                 <td>
                     <button class="btn btn-success" id="btnapprove"><a href="{% url 'approve_blood_request' t.id %}" style="text-decoration:none; color:white;">Approve</a></button>
                     &nbsp 
                     <button class="btn btn-danger" id="btnreject"><a href="{% url 'reject_blood_request' t.id %}" style="text-decoration:none; color:white;">Reject</a></button>
                 </td>
-
-
+                {% endif %} 
+                {% comment %} <td><span style="color: black;margin-left: 0px; font-weight:bolder;" class="label dark">{{status}}</span></td> {% endcomment %}
                 <script>
                     btnapprove = document.getElementById('btnapprove');
                     btnreject = document.getElementById('btnreject');

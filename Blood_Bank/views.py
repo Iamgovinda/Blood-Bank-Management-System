@@ -201,15 +201,8 @@ def EditCampaign(request,pk):
     
 def ViewBloodRequests(request):
     bloodrequests = BloodRequest.objects.all()
-    for br in bloodrequests:
-        print(br.status)
-        if br.status == "Approved":
-            status = "Approved"
-        elif br.status == "Rejected":
-            status = "Rejected"
-        else:
-            status = "Pending"
-    return render(request,"Admin/view-blood-request.html",{"bloodrequests":bloodrequests,"status":status})
+
+    return render(request,"Admin/view-blood-request.html",{"bloodrequests":bloodrequests})
 
 
 def ApproveBloodRequest(request,pk):
@@ -223,6 +216,7 @@ def ApproveBloodRequest(request,pk):
     if stockbloodunit>requestedbloodunit:
         stockblood.unit = stockbloodunit-requestedbloodunit
         br.status = "Approved"
+        print(br.status)
         stockblood.save()
         br.save()
     else:
@@ -230,4 +224,7 @@ def ApproveBloodRequest(request,pk):
     return redirect("/admin/view-bloodrequests/")
 
 def RejectBloodRequest(request,pk):
+    br = BloodRequest.objects.get(id=pk)
+    br.status = "Rejected"
+    br.save()
     return redirect("/admin/view-bloodrequests/")
