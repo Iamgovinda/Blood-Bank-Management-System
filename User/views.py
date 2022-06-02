@@ -198,6 +198,7 @@ def MakeRequest(request):
 
 
 def MyRequest(request):
+    #client data
     client = U_model.Profile.objects.get(user=request.user)
     print(client)
     # blood_request = B_model.BloodRequest.objects.all()
