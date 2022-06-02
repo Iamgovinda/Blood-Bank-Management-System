@@ -1,0 +1,92 @@
+{% extends 'User/client_dash_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <br><br>
+    <hr>
+    <h3 align="center"><strong>View Campaigns</strong></h3>
+    <hr>
+      <div class="row d-flex justify-content-center align-items-center h-100">
+          {% for campaign in campaigns %}
+          <div class="card text-white bg-dark mb-3 mx-3" style="width: 18rem;">
+            <img class="card-img-top" src="{% static 'images/back6.png' %}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title" id="ename">{{campaign.event_name}}</h5>
+              <hr>
+                <p>Date : <strong id="edate">{{campaign.date}}</strong></p>
+              <hr>
+              <p>Time : <strong id="etime">{{campaign.time}}</strong></p>
+              <hr>
+              <p>Location : <strong id="elocation">{{campaign.location}}</strong></p>
+              <hr>
+              <p>Contact : <strong id="econtact">{{campaign.contact}}</strong></p>
+              <hr>
+                {% comment %} <a href="{% url 'edit_campaign' campaign.id %}" class="btn btn-info" style="text-decoration:None; color:white;">Edit</a> {% endcomment %}
+              {% comment %}  {% endcomment %}
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                Register
+              </button>
+            </div>
+          </div>
+          <!-- Delete Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Campaign</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Delete the Campaign? Are you sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <a href=" {% url 'delete_campaign' campaign.id %} " class="btn btn-danger" id="deletebtn">Yes,Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+          {% endfor %}
+      </div>    
+</div>
+<script>
+    let btn = document.getElementById("Editbtn");
+    
+    btn.addEventListener("click",()=>{
+        let ename = document.getElementById("ename").innerHTML;
+        let edate = document.getElementById("edate").innerHTML;
+        let etime = document.getElementById("etime").innerHTML;
+        let elocation = document.getElementById("elocation").innerHTML;
+        let econtact = document.getElementById("econtact").innerHTML;
+
+        let deletebtn = document.getElementById("deletebtn");
+        deletebtn.addEventListener('click',()=>{
+            window.alert("Campaign deleted successfully!");
+        })
+
+        //window.alert(ename)
+        //window.alert(edate)
+        //window.alert(etime)
+        //window.alert(elocation)
+        //window.alert(econtact)
+        let name = document.getElementById("id_event_name")
+        let date = document.getElementById("id_date")
+        let time = document.getElementById("id_time")
+        let location = document.getElementById("id_location")
+        let contact = document.getElementById("id_contact")
+
+
+        name.value = ename;
+        date.value = edate;
+        time.value = etime;
+        location.value = elocation;
+        contact.value = econtact;
+        
+    })
+
+</script>
+{% endblock content %}
