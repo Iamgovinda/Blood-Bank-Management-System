@@ -15,8 +15,9 @@ from django.contrib.auth.models import User,Group
 from User.forms import *
 from Blood_Bank.models import Campaign
 from Blood_Bank.forms import CampaignForm
-from Blood.models import BloodRequest
+from Blood.models import BloodRequest,DonationRequest
 from Blood.models import Stock
+from datetime import datetime
 # Create your views here.
 
 def home(request):
@@ -112,7 +113,7 @@ def UpdateView(request):
         return redirect('/admin/blood-stock/')
 
 login_required(login_url='admin_login')
-@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/admin/admin-dash/")
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def CreateCampaign(request):
     campaigns = Campaign.objects.all()
     if request.method == "POST":
@@ -129,7 +130,7 @@ def CreateCampaign(request):
     return render(request,'Admin/create_campaign.html',{'campaignform':campaignform,'campaigns':campaigns})
 
 login_required(login_url='admin_login')
-@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/admin/admin-dash/")
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def ViewClients(request):
     # usergroup = Group.objects.get(name='Client')
     # client = User.groups.filter(name=usergroup)
@@ -142,7 +143,7 @@ def ViewClients(request):
     return render(request,"Admin/viewclient.html",{'client':clients})
 
 login_required(login_url='admin_login')
-@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/admin/admin-dash/")
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def UpdateClient(request,pk):
     if request.method == "POST":
         user = User.objects.get(id=pk)
@@ -174,15 +175,21 @@ def UpdateClient(request,pk):
 
     return render(request,'Admin/updateclient.html',context)
 
+@login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def DeleteClient(request,pk):
     user = User.objects.get(id=pk)
     user.delete()
     return redirect('/admin/view-clients/')
 
+@login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def DeleteCampaign(request,pk):
     Campaign.objects.filter(id=pk).delete()
     return redirect('/admin/create-campaign/')
 
+@login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def EditCampaign(request,pk):
     campaign = Campaign.objects.get(id=pk)
     campaigns = Campaign.objects.all()
@@ -198,24 +205,28 @@ def EditCampaign(request,pk):
         campaignform = CampaignForm(instance=campaign)
     return render(request,"Admin/edit_campaign.html",{'campaignform':campaignform,'campaigns':campaigns,'id':pk})
 
-    
+@login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def ViewBloodRequests(request):
     bloodrequests = BloodRequest.objects.all()
+    stock = Stock.objects.all()
+    context = {"bloodrequests":bloodrequests,"stock":stock}
+    return render(request,"Admin/view-blood-request.html",context)
 
-    return render(request,"Admin/view-blood-request.html",{"bloodrequests":bloodrequests})
 
-
+@login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def ApproveBloodRequest(request,pk):
     br = BloodRequest.objects.get(id=pk)
     bloodgroup = br.patient_bloodgroup
     requestedbloodunit = br.unit
     stockblood = Stock.objects.get(bloodgroup=bloodgroup)
     stockbloodunit=stockblood.unit
-    print(stockbloodunit,requestedbloodunit)
 
     if stockbloodunit>requestedbloodunit:
         stockblood.unit = stockbloodunit-requestedbloodunit
         br.status = "Approved"
+        br.response_date = datetime.now()
         print(br.status)
         stockblood.save()
         br.save()
@@ -223,8 +234,46 @@ def ApproveBloodRequest(request,pk):
         return HttpResponse("Stock has no enough blood")
     return redirect("/admin/view-bloodrequests/")
 
+@login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
 def RejectBloodRequest(request,pk):
-    br = BloodRequest.objects.get(id=pk)
-    br.status = "Rejected"
-    br.save()
-    return redirect("/admin/view-bloodrequests/")
+    if request.method == "POST":
+        br = BloodRequest.objects.get(id=pk)
+        br.status = "Rejected"
+        br.response_message = request.POST.get('RejectionMessage')
+        br.response_date = datetime.now()
+        br.save()
+        print(br.response_message)
+        return redirect("/admin/view-bloodrequests/")
+
+
+@login_required(login_url='admin_login')
+@role_required(allowed_roles=['Blood Bank Manager'],redirect_route="/client/client-dash/")
+def ViewHistory(request):
+    bloodrequests = BloodRequest.objects.exclude(status = 'Pending')
+    donationrequests = DonationRequest.objects.exclude(status = 'Pending')
+    context = {"bloodrequests":bloodrequests,"donationrequests":donationrequests}
+    return render(request,"Admin/view_history.html",context)
+
+def ViewDonationRequests(request):
+    donationrequests = DonationRequest.objects.all()
+    stock = Stock.objects.all()
+    context = {"donationrequests":donationrequests,"stock":stock}
+    return render(request,"Admin/view-donation-request.html",context)
+
+def ApproveDonationRequest(request,pk):
+    dr = DonationRequest.objects.get(id=pk)
+    dr.status = "Approved"
+    dr.save()
+    return redirect("/admin/view-donationrequests/")
+    
+
+def RejectDonationRequest(request,pk):
+    if request.method == "POST":
+        dr = DonationRequest.objects.get(id=pk)
+        dr.response_message = request.POST.get('RejectionMessage')
+        dr.response_date = datetime.now()
+        dr.status = "Rejected"
+        dr.save()
+        return redirect('/admin/view-donationrequests')
+    return redirect('/admin/view-donationrequests')

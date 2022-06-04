@@ -65,7 +65,7 @@
           .wrapper .sidebar{
           width: 200px;
           height: 100%;
-          background: #7D3278;
+          background: #343A40;
           padding: 30px 0px;
           position: fixed;
           }
@@ -168,10 +168,10 @@
             <li><a style="text-decoration:none;" href="/admin/admin-dash/"><i class="fas fa-home"></i>Home</a></li>
             <li><a style="text-decoration:none;" href="{% url 'view_client' %}"><i class="fas fa-sync-alt"></i>Clients</a></li>
             <li><a style="text-decoration:none;" href="/admin/view-bloodrequests/"><i class="fas fa-sync-alt"></i>Blood Requests</a></li>
-            <li><a style="text-decoration:none;" href="#"><i class="fas fa-history"></i>Donation Requests</a></li>
+            <li><a style="text-decoration:none;" href="{% url 'view_donation_request' %}"><i class="fas fa-history"></i>Donation Requests</a></li>
             <li><a style="text-decoration:none;" href="/admin/blood-stock"><i class="fas fa-history"></i>Stocks</a></li>
             <li><a style="text-decoration:none;" href="{% url 'Create_Campaign' %}"><i class="fas fa-sync-alt"></i>Campaigns</a></li>
-            <li><a style="text-decoration:none;" href="#"><i class="fas fa-sync-alt"></i>History</a></li>
+            <li><a style="text-decoration:none;" href="{% url 'view_history' %}"><i class="fas fa-sync-alt"></i>History</a></li>
         </ul> 
 
     </div>

@@ -1,0 +1,100 @@
+{% extends 'Admin/admin_dash_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}window.onload(){% endblock title %}
+{% block content %}
+<br><br>
+<div class="mx-auto" style="width: 80vw;">
+    <H4 class="text-center" ><strong>Client Blood Requests</strong></H4>
+    <table class="table table-light table-hover table-bordered table-striped">
+        <thead class="bg-danger">
+            <tr>
+                <th scope="col">Patient Name</th>
+                <th scope="col">Patient Age</th>
+                <th scope="col">Blood Group</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Response Time</th>
+                <th scope="col">Remarks</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in bloodrequests %}
+            <tr>
+                {% if t.status != 'Pending' %}
+                <td> {{t.patient_name}}</td>
+                <td>{{t.patient_age}}</td>
+                <td>{{t.patient_bloodgroup}}</td>
+                <td>{{t.unit}}</td>
+                <td>{{t.request_date}}</td>
+                {% if t.status == 'Approved' %}
+                <td><span class="label label-success">{{t.response_date}}</span></td>
+                <td><span class="bg-success">Approved</span></td>
+                <td>
+                    <span style="color:green;"><b>Your Request is Approved!</b></span>
+                </td>
+                {% elif t.status == 'Rejected' %}
+                <td><span class="label label-success">{{t.response_date}}</span></td>
+                <td><span class="bg-danger">Rejected</span></td>
+                <td>
+                    <span style="color:red;"><b>Your Request is Rejected!</b></span>
+                </td>
+                {% endif %} 
+                {% comment %} <td><span style="color: black;margin-left: 0px; font-weight:bolder;" class="label dark">{{status}}</span></td> {% endcomment %}
+                {% endif %}
+            </tr>
+            {% endfor %} 
+
+        </tbody>
+    
+    </table>
+    <br><br>
+    <H4 class="text-center" ><strong>Client Donation Requests</strong></H4>
+    <table class="table table-light table-hover table-bordered table-striped">
+        <thead class="bg-danger">
+            <tr>
+                <th scope="col">Donor Name</th>
+                <th scope="col">Donor Age</th>
+                <th scope="col">Blood Group</th>
+                <th scope="col">Registered Date</th>
+                <th scope="col">Campaign ID</th>
+                <th scope="col">Status</th>
+                <th scope="col">Response Time</th>
+                <th scope="col">Remarks</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in donationrequests %}
+            <tr>
+                {% if t.status != 'Pending' %}
+                <td> {{t.name}}</td>
+                <td>{{t.age}}</td>
+                <td>{{t.bloodgroup}}</td>
+                <td>{{t.request_date}}</td>
+                <td>{{t.campaignid}}</td>
+                {% if t.status == 'Approved' %}
+                <td><span class="label label-success">{{t.response_date}}</span></td>
+                <td><span class="bg-success">Approved</span></td>
+                <td>
+                    <span style="color:green;"><b>Request is Approved!</b></span>
+                </td>
+                {% elif t.status == 'Rejected' %}
+                <td><span class="label label-success">{{t.response_date}}</span></td>
+                <td><span class="bg-danger">Rejected</span></td>
+                <td>
+                    <span style="color:red;"><b>Request is Rejected!</b></span>
+                </td>
+                {% endif %} 
+                {% comment %} <td><span style="color: black;margin-left: 0px; font-weight:bolder;" class="label dark">{{status}}</span></td> {% endcomment %}
+                {% endif %}
+            </tr>
+            {% endfor %} 
+
+        </tbody>
+    
+    </table>
+
+{% endblock content %}

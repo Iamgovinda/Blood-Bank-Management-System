@@ -25,9 +25,9 @@
               <hr>
                 {% comment %} <a href="{% url 'edit_campaign' campaign.id %}" class="btn btn-info" style="text-decoration:None; color:white;">Edit</a> {% endcomment %}
               {% comment %}  {% endcomment %}
-              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                Register
-              </button>
+              
+                <button type="button" class="btn btn-danger"><a href="{% url 'donate_blood' campaign.id %}">Register</a></button>
+
             </div>
           </div>
           <!-- Delete Modal -->

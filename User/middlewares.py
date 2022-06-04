@@ -11,8 +11,7 @@ class UserRoleMiddleware:
     def process_view(request,view_func,view_args,view_kwargs):
         print('middleware')
         request.user_role = None
-        
-
+    
         if request and request.user and request.user.is_authenticated:
             print("in")
             groups = request.user.groups.all()

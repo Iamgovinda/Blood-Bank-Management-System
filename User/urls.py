@@ -9,6 +9,7 @@ urlpatterns = [
     path('client-dash/',views.UserHome,name="Client_Dashboard"),
     path('make-request/',views.MakeRequest, name="Make_Request"),
     path('my-request/',views.MyRequest,name="My_Requests"),
-    path('donate-blood/',views.DonateBlood,name="DonateBlood")
+    path('donate-blood/',views.Campaigns,name="campaigns"),
+    path('donate-blood/<int:pk>/',views.DonateBlood,name="donate_blood"),
     
 ]
