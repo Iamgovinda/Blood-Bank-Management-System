@@ -2,165 +2,126 @@
 {% block content %}
 <div class="container">
     <br>
-    <hr>
     <h3 style = "text-align:center;"><b>Client-Dashboard</b></h3>
     <hr>
-    <div class="row" style="margin-top: 28px;">
-        <div class="col-sm-3">
-          <div class="card bg-light">
-            <div class="card-body">
-                <div class="blood">
-                    <h2>A+ <i class="fas fa-tint" style="color: red;"></i></h2>
-                </div><br><br>
-                <div>
-                    {% comment %} {{A1.unit}} {% endcomment %}
-                </div>                            
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <div class="blood">
-                        <h2>B+ <i class="fas fa-tint" style="color: red;"></i></h2>
-                    </div><br><br>
-                    <div>
-                      {% comment %} {{B1.unit}} {% endcomment %}
-                    </div>                            
-                </div>
-              </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <div class="blood">
-                        <h2>O+ <i class="fas fa-tint" style="color: red;"></i></h2>
-                    </div><br><br>
-                    <div>
-                      {% comment %} {{O1.unit}} {% endcomment %}
-                    </div>                            
-                </div>
-              </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <div class="blood">
-                        <h2>AB+ <i class="fas fa-tint" style="color: red;"></i></h2>
-                    </div><br><br>
-                    <div>
-                      {% comment %} {{AB1.unit}} {% endcomment %}
-                    </div>                            
-                </div>
-              </div>
-          </div>
-      </div>
-  
-      <div class="row">
-        <div class="col-sm-3">
-          <div class="card bg-light">
-            <div class="card-body">
-                <div class="blood">
-                    <h2>A- <i class="fas fa-tint" style="color: red;"></i></h2>
-                </div><br><br>
-                <div>
-                  {% comment %} {{A2.unit}} {% endcomment %}
-                </div>                            
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <div class="blood">
-                        <h2>B- <i class="fas fa-tint" style="color: red;"></i></h2>
-                    </div><br><br>
-                    <div>
-                      {% comment %} {{B2.unit}} {% endcomment %}
-                    </div>                            
-                </div>
-              </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <div class="blood">
-                        <h2>O- <i class="fas fa-tint" style="color: red;"></i></h2>
-                    </div><br><br>
-                    <div>
-                      {% comment %} {{O2.unit}} {% endcomment %}
-                    </div>                            
-                </div>
-              </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <div class="blood">
-                        <h2>AB- <i class="fas fa-tint" style="color: red;"></i></h2>
-                    </div><br><br>
-                    <div>
-                      {% comment %} {{AB2.unit}} {% endcomment %}
-                    </div>                            
-                </div>
-              </div>
-          </div>
-      </div>
-<hr>
+
+    <br>
+    <h5 style = "text-align:center;"><b>Blood Requests</b></h5>
+    <hr>
     <div class="row">
       <div class="col-sm-3">
-        <div class="card bg-dark">
+        <div class="card bg-danger">
           <div class="card-body">
               <div class="blood">
                   <i class="fas fa-users"></i>
               </div><br>
               <div>
-                  Total Donors <br>
-                  {% comment %} {{totaldonors}} {% endcomment %}
+                  <strong>Total Requests</strong> <br>
+                  <b><strong>{{br_total}}</strong></b>
               </div>                            
           </div>
         </div>
       </div>
       <div class="col-sm-3">
-          <div class="card bg-dark">
+          <div class="card bg-danger">
               <div class="card-body">
                   <div class="blood">
                       <i class="fas fa-spinner"></i>
                   </div><br>
                   <div>
-                      Total Requests <br>
-                     {% comment %} {{totalrequest}} {% endcomment %}
+                      <strong>Pending Requests</strong> <br>
+                     <b><strong>{{br_pending}}</strong></b>
                   </div>                            
               </div>
             </div>
       </div>
       <div class="col-sm-3">
-          <div class="card bg-dark">
+          <div class="card bg-danger">
               <div class="card-body">
                   <div class="blood">
                       <i class="far fa-check-circle"></i>
                   </div><br>
                   <div>
-                      Approved Requests <br>
-                      {% comment %} {{totalapprovedrequest}} {% endcomment %}
+                      <strong>Approved Requests</strong> <br>
+                      <b><strong>{{br_approved}}</strong></b>
                   </div>                            
               </div>
             </div>
         </div>
         <div class="col-sm-3">
-          <div class="card bg-dark">
+          <div class="card bg-danger">
               <div class="card-body">
                   <div class="blood">
-                      <i class="fas fa-tint xyz"></i>
+                    <i class="fa-solid fa-xmark-circle"></i>
                   </div><br>
                   <div>
-                      Total Blood Unit (in ml) <br>
-                      {% comment %} {{totalbloodunit}} {% endcomment %}
+                      <strong>Rejected Requests</strong> <br>
+                      <b><strong>{{br_rejected}}</strong></b>
                   </div>                            
               </div>
             </div>
         </div>
     </div>
+
+
+<br>
+<h5 style = "text-align:center;"><b>Donation Requests</b></h5>
+<hr>
+<div class="row">
+  <div class="col-sm-3">
+    <div class="card bg-danger">
+      <div class="card-body">
+          <div class="blood">
+              <i class="fas fa-users"></i>
+          </div><br>
+          <div>
+              <strong>Total Requests</strong> <br>
+              <b><strong>{{dr_total}}</strong></b>
+          </div>                            
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+      <div class="card bg-danger">
+          <div class="card-body">
+              <div class="blood">
+                  <i class="fas fa-spinner"></i>
+              </div><br>
+              <div>
+                  <strong>Pending Requests</strong> <br>
+                 <b><strong>{{dr_pending}}</strong></b>
+              </div>                            
+          </div>
+        </div>
+  </div>
+  <div class="col-sm-3">
+      <div class="card bg-danger">
+          <div class="card-body">
+              <div class="blood">
+                  <i class="far fa-check-circle"></i>
+              </div><br>
+              <div>
+                  <strong>Approved Requests</strong> <br>
+                  <b><strong>{{dr_approved}}</strong></b>
+              </div>                            
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card bg-danger">
+          <div class="card-body">
+              <div class="blood">
+                  <i class="fas fa-tint xyz"></i>
+              </div><br>
+              <div>
+                  <strong>Rejected Requests</strong> <br>
+                  <b><strong>{{dr_rejected}}</strong></b>
+              </div>                            
+          </div>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 
 

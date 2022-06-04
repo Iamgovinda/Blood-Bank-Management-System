@@ -5,28 +5,30 @@
 {% block content %}
 <br><br>
 <div class="mx-auto" style="width: 80vw;">
-    <H4 class="text-center" ><strong>My Blood Request</strong></H4>
+    <H4 class="text-center" ><strong>Client Donation Requests</strong></H4>
     <table class="table table-light table-hover table-bordered table-striped">
         <thead class="bg-danger">
             <tr>
-                <th scope="col">Patient Name</th>
-                <th scope="col">Patient Age</th>
+                <th scope="col">Donor Name</th>
+                <th scope="col">Donor Age</th>
                 <th scope="col">Blood Group</th>
-                <th scope="col">Unit</th>
-                <th scope="col">Date</th>
+                <th scope="col">Disease</th>
+                <th scope="col">Register Date</th>
+                <th scope="col">Email</th>
                 <th scope="col">Status</th>
                 <th scope="col">Actions</th>
                 
             </tr>
         </thead>
         <tbody>
-            {% for t in bloodrequests %}
+            {% for t in donationrequests %}
             <tr>
                 {% if t.status == 'Pending' %}
-                <td> {{t.patient_name}}</td>
-                <td>{{t.patient_age}}</td>
-                <td>{{t.patient_bloodgroup}}</td>
-                <td>{{t.unit}}</td>
+                <td> {{t.name}}</td>
+                <td>{{t.age}}</td>
+                <td>{{t.bloodgroup}}</td>
+                <td>{{t.disease}}</td>
+                <td>{{t.email}}</td>
                 <td>{{t.request_date}}</td>
                 {% comment %} <td><span class="label warning">Approved</span></td>
                 <td>
@@ -57,22 +59,13 @@
                             </div>
                             <div class="modal-body bg-danger">
                                 
-                                <h5><b>Requested Blood Type: <strong>"{{t.patient_bloodgroup}}"</strong></b></h5>
+                                <h5><b>Disease: <strong>"{{t.disease}}"</strong></b></h5>
                                 <hr>
-                                <h5><b>Requested {{t.patient_bloodgroup}} Blood: <strong>{{t.unit}}</strong> ML</b></h5>
-                                <hr>
-                                <h5><b>Remaining {{t.patient_bloodgroup}} Blood: 
-                                    {% for s in stock %}
-                                        {% if s.bloodgroup == t.patient_bloodgroup %}
-                                            <strong>{{s.unit}}</strong>
-                                        {% endif %}
-                                    {% endfor %}
-                                    ML
-                                </b></h5>
+ 
                             </div>
                             <div class="modal-footer bg-info">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button class="btn btn-success" id="btnapprove"  data-toggle="modal" data-target="#exampleModal1"><a href="{% url 'approve_blood_request' t.id %}" style="text-decoration:none; color:white;">Approve</a></button>
+                            <button class="btn btn-success" id="btnapprove"  data-toggle="modal" data-target="#exampleModal1"><a href="{% url 'approve_donation_request' t.id %}" style="text-decoration:none; color:white;">Approve</a></button>
                             </div>
                         </div>
                         </div>
@@ -89,7 +82,7 @@
                             </div>
 
                             <div class="modal-body">
-                                <form action="{% url 'reject_blood_request' t.id %}" method="POST">
+                                <form action="{% url 'reject_donation_request' t.id %}" method="POST">
                                     {% csrf_token %}
                                     Enter the rejection message: <input type="text" name="RejectionMessage">
                             </div>
