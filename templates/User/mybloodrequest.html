@@ -30,7 +30,7 @@
                 <td><span class="bg-success"> Approved</span></td>
                 
                 {% elif t.status == 'Rejected' %}
-                <td><span class="bg-danger">Rejected 
+                <td><span class="bg-danger">Rejected</span>
                     <!-- Button trigger modal -->
                      <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">Reason</button></td>
                 <!-- Modal -->
@@ -52,7 +52,6 @@
                         </div>
                         </div>
                     </div>
-                    </span>
                 </div>
                 {% else %}
                 <td><span style="color: black;margin-left: 0px;" class="bg-info">Pending</span></td>
@@ -81,6 +80,7 @@
                 <th scope="col">Request Date</th>
                 <th scope="col">Response Date</th>
                 <th scope="col">Status</th>
+                <th scope="col">Remarks</th>
                 
             </tr>
         </thead>
@@ -96,11 +96,18 @@
                 <td>{{t.response_date}}</td>
                 {% if t.status == 'Approved' %}
                 <td><span class="bg-success"> Approved</span></td>
-                
+                <td><span class="bg-success">Donation Request is approved!</span></td>
+
+                {% elif t.status == 'Donated' %}
+                <td><span class="bg-success">Donated</span>
+                    <a class="btn btn-success" style="text-decoration:none" href="{% url 'view_certificate' t.id %}">certificate</a></td> 
+                    <td><span class="bg-success">You have donated {{t.unit}} unit Blood!</span></td>
                 {% elif t.status == 'Rejected' %}
-                <td><span class="bg-danger">Rejected &nbsp &nbsp &nbsp
+                <td><span class="bg-danger">Rejected</span> &nbsp &nbsp &nbsp
                     <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Reason</button></td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Reason</button>
+                </td>
+                <td><span class="bg-danger">Donation Request is Rejected!</span></td>
                 <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -120,10 +127,10 @@
                         </div>
                         </div>
                     </div>
-                    </span>
                 </div>
                 {% else %}
                 <td><span style="color: black;margin-left: 0px;" class="bg-info">Pending</span></td>
+                <td><span style="color: black;margin-left: 0px;" class="bg-info">Your Request is under Review</span></td>
                 {% endif %} 
                 
 

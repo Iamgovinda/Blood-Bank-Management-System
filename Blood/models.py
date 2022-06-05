@@ -46,6 +46,7 @@ class DonationRequest(models.Model):
     status = models.CharField(max_length=20,default="Pending")
     response_message = models.CharField(max_length=200,default="")
     response_date = models.DateTimeField(auto_now=True)
+    unit = models.PositiveIntegerField(default=0)
     def __str__(self) -> str:
         return self.bloodgroup
 

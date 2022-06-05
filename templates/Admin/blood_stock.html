@@ -1,5 +1,7 @@
 {% extends 'Admin/admin_dash_base.html' %}
 {% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
 <div class="container">
     <br>
     <hr>
@@ -110,31 +112,142 @@
 <hr>
 <hr>
 <br>
-<h3 class="text-center"><br>Update Blood Unit<br></h3>
-<hr><br>
-<div class="xyz" style = "display: table; margin-right: auto; margin-left: auto;" >
-
-    <form class="form-inline" method="POST" action="/admin/blood-update/">
-        {% csrf_token %}
-        <div class="form-group mx-sm-3 mb-6">
-
-            <select name="bloodgroup" class="form-control">
-                <option disabled="disabled" selected="selected"><b>Choose Blood Group <hr></b></option>
-                <option>A+</option>
-                <option>A-</option>  
-                <option>B+</option>
-                <option>B-</option>
-                <option>AB+</option>
-                <option>AB-</option>
-                <option>O+</option>
-                <option>O-</option>
-            </select>
-          </div>
-        <div class="form-group mx-sm-3 mb-6">
-
-          <input type="number" class="form-control" name="unit" placeholder="Unit in ML">
-        </div>
-        <button type="submit" class="btn btn-danger mb-1">Update</button>
-      </form>
+<h3 class="text-center"><b>Add blood</b></h3>
+<hr>
+<div align="center">
+<h3>For Pre-Registered Donors</h3>
+<br>
+<form action="/admin/blood-stock/" method="POST">
+  {% csrf_token %}
+  <select class="form-select form-select-lg mb-3" name="donorid" id="donor">
+    <option value="SELECTED" selected>Choose Donors</option>
+    {% for donor in donors %}
+      <option value="{{donor.id}}">{{donor.name}}</option>
+    {% endfor %}
+  </select>&nbsp;&nbsp;
+  <label for="bunit"><b>Blood Unit</b></label>
+ <input type="number" name="bunit">
+  <br>
+  <button type="submit" class="btn btn-primary">Add Blood</button>
+</form>
 </div>
+<hr>
+<div align="center">
+  <h3>For New Users</h3>
+
+  <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Add Blood
+</button>
+<hr>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Donate Blood</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/add-blood/" method="post">
+          {% csrf_token %}
+          {{donationform|crispy}}
+          Blood Unit: <input type="number" name="unit">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-danger" >Add to Stock</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+</div>
+<hr><hr>
+<div class="xyz" style = "display: table; margin-right: auto; margin-left: auto;" align="center" >
+  <h3>Update Blood</h3>
+  <form class="form-inline" method="POST" action="/admin/blood-update/">
+      {% csrf_token %}
+      <div class="form-group mx-sm-3 mb-6" >
+
+          <select name="bloodgroup" class="form-control">
+              <option disabled="disabled" selected="selected"><b>Choose Blood Group <hr></b></option>
+              <option>A+</option>
+              <option>A-</option>  
+              <option>B+</option>
+              <option>B-</option>
+              <option>AB+</option>
+              <option>AB-</option>
+              <option>O+</option>
+              <option>O-</option>
+          </select>
+        </div>
+      <div class="form-group mx-sm-3 mb-6">
+
+        <input type="number" class="form-control" name="unit" placeholder="Unit in ML">
+      </div>
+      <button type="submit" class="btn btn-danger mb-1">Update</button>
+    </form>
+</div>
+<hr>
+<!-- <form action="/admin/blood-stock/" method="POST">
+  {% csrf_token %} -->
+  <!-- <div class="form-check" align="center">
+    <input class="form-check-input" class="r1" style="width: 15px; height: 15px;" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" checked>
+    <label class="form-check-label" for="flexCheckDefault">
+      <b>Pre-Registered Donor</b>
+    </label>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+    <input class="form-check-input" class="r2" style="width: 15px; height: 15px;" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="0">
+    <label class="form-check-label" for="flexCheckChecked">
+      <b>New Donor</b>
+    </label>
+    &nbsp;&nbsp; 
+    <br><br>
+    <div id="donorsection" align="center">
+
+    </div>
+    <div id="btnsection" align="right">
+
+    </div>
+<select name="donorid" id="donorid">
+      {% for donor in donors %}
+        <option value="{{donor.id}}">{{donor.name}}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">ADD BLOOD</button> -->
+    
+  <!-- //</div>
+<script> 
+  //  let r1 = document.getElementById("flexRadioDefault1");
+  //  let r2 = document.getElementById("flexRadioDefault2");
+  //  r2.addEventListener("click",()=>{
+  //   
+  //    var donorsection = document.getElementById("donorsection");
+  //    var btn = "<button class='btn btn-danger'>ADD BLOOD</button>";
+  //    var btnsection = document.getElementById("btnsection");
+  //    btnsection.innerHTML = btn;
+  //    donorsection.innerHTML ="";
+  //    
+  //  })
+  //
+  //  r1.addEventListener("click",()=>{
+  //    var donorsection = document.getElementById("donorsection");
+  //    var htmlsection = "<" + "select class" +"=" + "form-select aria-label" + "=" +"Default select example" + "name"+"="+"donorid"+">" +
+  //      "<" + "option selected" +">Select Donors</option>" +
+  //      "{% for donor in donors %}" +
+  //      "<option" + "value" +"=" + "Hellpo" + ">{{donor.name}}</option" +">" + 
+  //      "{% endfor %}" +
+  //    "</select>";
+  //    var btn = "<button class='btn btn-danger' type='submit'>ADD BLOOD</a></button>";
+  //    var btnsection = document.getElementById("btnsection");
+  //    btnsection.innerHTML = btn;
+  //    donorsection.innerHTML =htmlsection;
+  //  })
+///form> -->
+
+{% comment %} <hr><br>
+ {% endcomment %}
 {% endblock %}

@@ -60,8 +60,8 @@
                 <th scope="col">Blood Group</th>
                 <th scope="col">Registered Date</th>
                 <th scope="col">Campaign ID</th>
-                <th scope="col">Status</th>
                 <th scope="col">Response Time</th>
+                <th scope="col">Status</th>
                 <th scope="col">Remarks</th>
                 
             </tr>
@@ -87,6 +87,13 @@
                 <td>
                     <span style="color:red;"><b>Request is Rejected!</b></span>
                 </td>
+                {% elif t.status == 'Donated' %}
+                <td><span class="label label-success">{{t.response_date}}</span></td>
+                <td><span class="bg-success">Donated</span>
+                    <a class="btn btn-success" style="text-decoration:none" href="{% url 'view_certificate' t.id %}">certificate</a></td>
+                <td>
+                    <span style="color:green;"><b>{{t.unit}} Blood is Added to Stock!</b></span>
+                </td> 
                 {% endif %} 
                 {% comment %} <td><span style="color: black;margin-left: 0px; font-weight:bolder;" class="label dark">{{status}}</span></td> {% endcomment %}
                 {% endif %}

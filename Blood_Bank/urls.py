@@ -1,3 +1,4 @@
+from unicodedata import name
 from django.urls import path,include
 from Blood_Bank import views
 
@@ -18,5 +19,7 @@ urlpatterns = [
     path('approve-bloodrequest/<int:pk>',views.ApproveBloodRequest,name="approve_blood_request"),
     path('reject-bloodrequest/<int:pk>/',views.RejectBloodRequest,name="reject_blood_request"), 
     path('approve-donationrequest/<int:pk>',views.ApproveDonationRequest,name="approve_donation_request"),
-    path('reject-donationrequest/<int:pk>/',views.RejectDonationRequest,name="reject_donation_request")   
+    path('reject-donationrequest/<int:pk>/',views.RejectDonationRequest,name="reject_donation_request"), 
+    path('add-blood/',views.AddBlood, name="add_blood")  
+
 ]
