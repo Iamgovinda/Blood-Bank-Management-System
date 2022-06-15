@@ -19,5 +19,7 @@ class UserRoleMiddleware:
             if groups:
                 # print("inside")
                 request.user_role = groups[0].name
+                if request.user_role == "Blood Bank Manager":
+                    request.is_BBM = True
                 # print(request.user_role)
             # HttpResponse("<b style='color:red;'>Message: Not found Group</b>")

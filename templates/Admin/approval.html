@@ -1,0 +1,62 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+            text-align:center;
+        }
+    
+        .section{
+            text-align:center;
+            border: 2px solid black;
+            width: 70%;
+        }
+
+        @page{
+            size: A4;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="section2">
+            <h3><u>Blood Bank Management System</u></h3>
+            <p>The following bloodrequest has been approved by our blood bank. Please provide the blood for following person.
+            </p>
+        </div>
+        <pre>
+            Patient's Name : {{name}}
+            Email : Jamkatelgovinda1@gmail.com
+            Bloodgroup : {{bg}}
+            Required Quantity: {{unit}}
+        </pre>
+    </div>
+
+</body>
+</html> {% endcomment %}
+
+<div style="width:800px; height:600px; padding:20px; border: 5px solid #787878">
+    <div style="width:750px; height:550px; padding:20px;  border: 5px solid #787878">
+            <span style="font-size:40px; font-weight:bold; color:red; text-align:center;">Blood Bank Management System</span>
+            <br><br><br><br>
+            <span style="font-size:30px; text-align:center;"><u>Letter of Approval</u></span><br><br><br>
+            <span style="font-size:25px">The Following blood request has been approved! Please provide the blood for following patient.</span>
+            <br><br>
+            <span style="font-size: 25px;"></span><br><br>
+            
+            <span style="font-size: 20px;">
+                Patient's Name : {{name}}
+                <br><br>
+                Bloodgroup : {{bg}}
+                <br><br>
+                Required Quantity : {{unit}} ML
+                <br>
+            </span>
+
+    </div>
+    </div>

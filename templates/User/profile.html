@@ -1,10 +1,7 @@
-{% extends 'Blood_Bank/base.html' %}
-{% comment %} {% extends {{extendbase}} %} {% endcomment %}
-{% comment %} {% extends 'Blood_Bank/base.html' %} {% endcomment %}
-
+{% extends request.is_BBM|yesno:"Admin/admin_dash_base.html,User/client_dash_base.html" %}
 {% load crispy_forms_tags %}
-
-{% block css %}
+{% load static %}
+{% comment %} {% block css %}
 
 .form-control:focus {
     box-shadow: none;
@@ -46,7 +43,7 @@
     cursor: pointer;
     border: solid 1px #BA68C8
 }
-{% endblock css %}
+{% endblock css %} {% endcomment %}
 {% block content %}
 <div class="container rounded bg-white mt-5 mb-5 align - center " >
     <div class="row" >
@@ -58,17 +55,8 @@
                 {% csrf_token %}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">
-                        <b>Profile Settings</b>
+                        <b>My Profile Settings</b>
                         <hr>
-                        <div class="col-md-12">
-                            {% if messages %}
-                              {% for message in messages %}
-                                <div class="alert alert-success">
-                                  {{ message }}
-                                </div>
-                              {% endfor %}
-                            {% endif %}
-                          </div> 
                     </legend>
 
                     {{u_form|crispy}}

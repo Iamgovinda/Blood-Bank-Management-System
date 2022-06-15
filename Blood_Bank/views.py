@@ -1,3 +1,4 @@
+from email import message
 from xhtml2pdf import pisa
 from django.views import View
 from django.template.loader import get_template
@@ -22,8 +23,8 @@ from Blood_Bank.models import Campaign
 from Blood.models import BloodRequest, DonationRequest
 from Blood.models import Stock
 from datetime import datetime
-from Blood.forms import DonationRequestForm
-
+from Blood.forms import DonationRequestForm,BloodRequestForm
+from django.core.mail import send_mail
 # Create your views here.
 
 
@@ -93,6 +94,14 @@ def AdminDash(request):
         'AB2': str(models.Stock.objects.get(bloodgroup="AB-").unit) + ' ML',
         'O1': str(models.Stock.objects.get(bloodgroup="O+").unit) + ' ML',
         'O2': str(models.Stock.objects.get(bloodgroup="O-").unit) + ' ML',
+        'dr_total':DonationRequest.objects.all().count(),
+        'dr_pending':DonationRequest.objects.all().filter(status="Pending").count(),
+        'dr_approved':DonationRequest.objects.all().filter(status="Approved").count(),
+        'dr_rejected':DonationRequest.objects.all().filter(status="Rejected").count(),
+        'br_total':BloodRequest.objects.all().count(),
+        'br_pending':BloodRequest.objects.all().filter(status="Pending").count(),
+        'br_approved':BloodRequest.objects.all().filter(status="Approved").count(),
+        'br_rejected':BloodRequest.objects.all().filter(status="Rejected").count()
     }
     return render(request, "Admin/admin_dashboard.html", context)
 
@@ -102,11 +111,17 @@ def AdminDash(request):
 def StockView(request):
     if request.method == "GET":
         blooddonationform = DonationRequestForm()
+        bloodrequestform = BloodRequestForm()
         approveddonationrequests = DonationRequest.objects.filter(
             status="Approved")
         donors = []
         for donor in approveddonationrequests:
             donors.append(donor)
+        approvedbloodrequests = BloodRequest.objects.filter(status="Approved")
+
+        patients = []
+        for patient in approvedbloodrequests:
+            patients.append(patient)
 
         context = {
             'A1': str(models.Stock.objects.get(bloodgroup="A+").unit) + ' ML',
@@ -118,12 +133,17 @@ def StockView(request):
             'O1': str(models.Stock.objects.get(bloodgroup="O+").unit) + ' ML',
             'O2': str(models.Stock.objects.get(bloodgroup="O-").unit) + ' ML',
             'donors': donors,
-            'donationform': blooddonationform
+            'patients':patients,
+            'donationform': blooddonationform,
+            'bloodrequestform':bloodrequestform
         }
         return render(request, "Admin/blood_stock.html", context)
 
     if request.method == "POST":
         donoridd = request.POST.get("donorid")
+        if donoridd == "SELECTED":
+            messages.error(request,"Please select donor first.")
+            return redirect('/admin/blood-stock/')
         unit = request.POST.get("bunit")
         donation = DonationRequest.objects.get(id=donoridd)
         donation.unit = unit
@@ -132,12 +152,11 @@ def StockView(request):
         stock.unit = int(stock.unit) + int(unit)
         donation.save()
         stock.save()
+        messages.info(request,"Blood added successfully")
         return redirect('/admin/blood-stock/')
 
 
-login_required(login_url='admin_login')
-
-
+@login_required(login_url='admin_login')
 @role_required(allowed_roles=['Blood Bank Manager'], redirect_route="/client/client-dash/")
 def UpdateView(request):
     if request.method == "POST":
@@ -146,12 +165,11 @@ def UpdateView(request):
         blood = Stock.objects.get(bloodgroup=bloodgroup)
         blood.unit = unit
         blood.save()
+        messages.success(request,f"Stock updated successfully")
         return redirect('/admin/blood-stock/')
 
 
-login_required(login_url='admin_login')
-
-
+@login_required(login_url='admin_login')
 @role_required(allowed_roles=['Blood Bank Manager'], redirect_route="/client/client-dash/")
 def CreateCampaign(request):
     campaigns = Campaign.objects.all()
@@ -159,6 +177,7 @@ def CreateCampaign(request):
         campaignform = CampaignForm(request.POST)
         if campaignform.is_valid():
             campaignform.save()
+            messages.success(request,f"Campaign created successfully")
             return redirect('Create_Campaign')
         else:
             messages.error(request, "Form is not valid")
@@ -169,9 +188,7 @@ def CreateCampaign(request):
     return render(request, 'Admin/create_campaign.html', {'campaignform': campaignform, 'campaigns': campaigns})
 
 
-login_required(login_url='admin_login')
-
-
+@login_required(login_url='admin_login')
 @role_required(allowed_roles=['Blood Bank Manager'], redirect_route="/client/client-dash/")
 def ViewClients(request):
     # usergroup = Group.objects.get(name='Client')
@@ -185,9 +202,7 @@ def ViewClients(request):
     return render(request, "Admin/viewclient.html", {'client': clients})
 
 
-login_required(login_url='admin_login')
-
-
+@login_required(login_url='admin_login')
 @role_required(allowed_roles=['Blood Bank Manager'], redirect_route="/client/client-dash/")
 def UpdateClient(request, pk):
     if request.method == "POST":
@@ -225,6 +240,7 @@ def UpdateClient(request, pk):
 def DeleteClient(request, pk):
     user = User.objects.get(id=pk)
     user.delete()
+    messages.info(request,f"Client deleted successfully")
     return redirect('/admin/view-clients/')
 
 
@@ -232,6 +248,7 @@ def DeleteClient(request, pk):
 @role_required(allowed_roles=['Blood Bank Manager'], redirect_route="/client/client-dash/")
 def DeleteCampaign(request, pk):
     Campaign.objects.filter(id=pk).delete()
+    messages.info(request,f"Campaign deleted successfully")
     return redirect('/admin/create-campaign/')
 
 
@@ -272,7 +289,7 @@ def ApproveBloodRequest(request, pk):
     stockbloodunit = stockblood.unit
 
     if stockbloodunit > requestedbloodunit:
-        stockblood.unit = stockbloodunit-requestedbloodunit
+        # stockblood.unit = stockbloodunit-requestedbloodunit
         br.status = "Approved"
         br.response_date = datetime.now()
         print(br.status)
@@ -305,21 +322,148 @@ def ViewHistory(request):
                "donationrequests": donationrequests}
     return render(request, "Admin/view_history.html", context)
 
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager'], redirect_route='/admin/admin-dash/')
+def ManageDR(request,pk):
+    if request.method=="GET":
+        dr = DonationRequest.objects.get(id=pk)
+        dr.delete()
+        print("Deleted")
+        return redirect('/admin/view-history/')
 
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager'], redirect_route='/admin/admin-dash/')
+def ManageBR(request,pk):
+    if request.method=="GET":
+        BloodRequest.objects.filter(id=pk).delete()
+        return redirect('/admin/view-history/')
+
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager'], redirect_route='/admin/admin-dash/')
+def SendMailDR(request,pk):
+    if request.method=="GET":
+        dr = DonationRequest.objects.get(id=pk)
+        cp = Campaign.objects.get(id=dr.campaignid)
+        donor = dr.name
+        cpname = cp.event_name
+        Location = cp.location
+        Date = cp.date
+        Time = cp.time
+        contact = cp.contact
+        if dr.status == "Approved":
+            subjects = "Your donation request has been approved!!!"
+            msgs = f"""
+                Hello {donor},
+
+                The donation request you have made is approved. We have added you as pre-registered donor in our system.
+                Please, visit at the following location on the following date & time.
+
+                Campaign: {cpname}
+                Location: {Location}
+                Date : {Date}
+                Time : {Time}
+
+                if you have any queries please contact us on {contact}.
+                """
+        elif dr.status == "Rejected":
+            subjects = "Your donation request has been Rejected!!!"
+            message = dr.response_message
+            msgs = f"""
+                Hello {donor},
+
+                This is to notify you that the donation request you have made is rejected because, {message}!
+
+                if you have any queries please contact us on hamrobbms.com.
+                """
+        elif dr.status == "Donated":
+            subjects = "Appreciation for the blood donation"
+            msgs = f"""
+                Hello {donor},
+
+                We really appreciate your work. We are really very thankful for the donation you have made.
+                You can download the apreciation certificate from your account.
+
+                if you have any queries please contact us on hamrobbms.com.
+                """
+        
+        else:
+            return redirect('/admin/view-history/')
+        send_mail(subjects,
+        msgs,
+        'hamrobbms@gmail.com',
+        (dr.email,),
+        fail_silently=False
+        )
+        messages.success(request,"Email sent successfully")
+        return redirect('/admin/view-history/')
+
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager'], redirect_route='/admin/admin-dash/')
+def SendMailBR(request,pk):
+    if request.method=="GET":
+        br = BloodRequest.objects.get(id=pk)
+        patient = br.patient_name
+        if br.status == "Approved":
+            subjects = "Your blood request has been approved!!!"
+            msgs = f"""
+                Hello {patient},
+
+                The blood request you have made is approved. We have added you as pre-registered patient in our system.
+                Please, visit at the following visit our bloodbank with the copy of approval of bloodrequest.
+
+                if you have any queries please contact us on hamrobbms.com.
+                """
+        elif br.status == "Rejected":
+            subjects = "Your blood request has been Rejected!!!"
+            message = br.response_message
+            msgs = f"""
+                Hello {patient},
+
+                This is to notify you that the blood request you have made is rejected because, {message}!
+
+                if you have any queries please contact us on hamrobbms.com.
+                """
+        elif br.status == "Given":
+            subjects = "Appreciation for the blood donation"
+            msgs = f"""
+                Hello {patient},
+                
+                You have recieved {br.unit} ML of {br.patient_bloodgroup} blood. 
+                Thank you for giving us opportunity to help you!
+
+                if you have any queries please contact us on hamrobbms.com.
+                """
+        
+        else:
+            return redirect('/admin/view-history/')
+        send_mail(subjects,
+        msgs,
+        'hamrobbms@gmail.com',
+        (br.email,),
+        fail_silently=False
+        )
+        messages.success(request,"Email sent successfully")
+        return redirect('/admin/view-history/')
+
+
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager'], redirect_route='/admin/admin-dash/')
 def ViewDonationRequests(request):
     donationrequests = DonationRequest.objects.all()
     stock = Stock.objects.all()
     context = {"donationrequests": donationrequests, "stock": stock}
     return render(request, "Admin/view-donation-request.html", context)
 
-
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager'], redirect_route='/admin/admin-dash/')
 def ApproveDonationRequest(request, pk):
     dr = DonationRequest.objects.get(id=pk)
     dr.status = "Approved"
     dr.save()
     return redirect("/admin/view-donationrequests/")
 
-
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager'], redirect_route='/admin/admin-dash/')
 def RejectDonationRequest(request, pk):
     if request.method == "POST":
         dr = DonationRequest.objects.get(id=pk)
@@ -355,13 +499,61 @@ def AddBlood(request):
     else:
         return redirect('/admin/blood-stock/')
 
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager'], redirect_route='/admin/admin-dash/')
+def GiveBloodExistingRequest(request):
+    if request.method == "POST":
+        patientidd = request.POST.get("patientid")
+        if patientidd == "SELECTED":
+            messages.error(request,"Please select the patient first.")
+            return redirect('/admin/blood-stock/')
+        unit = request.POST.get("bunit")
+        blood = BloodRequest.objects.get(id=patientidd)
+        blood.unit = unit
+        print("Here Inside")
+        blood.status = "Given"
+        stock = Stock.objects.get(bloodgroup=blood.patient_bloodgroup)
+        stock.unit = int(stock.unit) - int(unit)
+        blood.save()
+        stock.save()
+        return redirect('/admin/blood-stock/')
+
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager'], redirect_route='/admin/admin-dash/')
+def GiveBloodNewRequest(request):
+    if request.method == "POST":
+        bloodform = BloodRequestForm(request.POST)
+        if bloodform.is_valid():
+            df = bloodform.save(commit=False)
+            bloodgroup = request.POST.get('patient_bloodgroup')
+            unit = request.POST.get('unit')
+            stock = Stock.objects.get(bloodgroup=bloodgroup)
+            if int(stock.unit)>int(unit):
+                stock.unit = int(stock.unit) - int(unit)
+                stock.save()
+            else:
+                return HttpResponse("Stock Has No enough Blood")
+            print(bloodgroup)
+            df.request_by_client = Profile.objects.get(user_id=request.user.id)
+            df.unit = unit
+            df.status = "Given"
+            df.save()
+            return redirect('/admin/blood-stock/')
+        else:
+            return HttpResponse("Not Valid")
+    else:
+        return redirect('/admin/blood-stock/')
+
+
+
 
 # provide the certificate section
 
 
 # provide the certificate section
 
-
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager',"Client"], redirect_route='/admin/admin-dash/')
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
     html = template.render(context_dict)
@@ -373,10 +565,19 @@ def render_to_pdf(template_src, context_dict={}):
 
 
 # Opens up page as PDF
-
-
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager',"Client"], redirect_route='/admin/admin-dash/')
 def ViewCertificate(request, pk, *args, **kwargs):
     donationrequest = DonationRequest.objects.get(id=pk)
     data = {"name":donationrequest.name,"unit":donationrequest.unit,"bg":donationrequest.bloodgroup}
     pdf = render_to_pdf('Admin/certificate.html', data)
+    return HttpResponse(pdf, content_type='application/pdf')
+# Opens up page as PDF
+
+@login_required(login_url="/admin/login/")
+@role_required(allowed_roles=['Blood Bank Manager',"Client"], redirect_route='/admin/admin-dash/')
+def ViewApproval(request, pk, *args, **kwargs):
+    bloodrequest = BloodRequest.objects.get(id=pk)
+    data = {"name":bloodrequest.patient_name,"unit":bloodrequest.unit,"bg":bloodrequest.patient_bloodgroup}
+    pdf = render_to_pdf('Admin/approval.html', data)
     return HttpResponse(pdf, content_type='application/pdf')

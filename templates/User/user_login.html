@@ -5,7 +5,7 @@
 {% block content %}
 <div class="mid">
     <section class="vh-100 gradient-custom" style="background-color: rgb(37, 173, 155);">
-      <div class="container py-5 h-100">
+      <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div style="border-radius: 1rem; background-color:rgb(255, 255, 255); color:rgb(0, 0, 0);">
@@ -36,15 +36,7 @@
                     <button class="btn btn-danger btn-sm px-3 mb-2" type="submit"><b>Login</b></button> 
 
                   </form> 
-                  <div class="col-md-12">
-                    {% if messages %}
-                      {% for message in messages %}
-                        <div class="alert alert-danger">
-                          {{ message }}
-                        </div>
-                      {% endfor %}
-                    {% endif %}
-                  </div>    
+   
                   <div>
                     <p><b>Haven't registered yet? </b><a href="/client/registration" class="text-dark-50 fw-bold" style="text-decoration: none;"><b>Register Here</b></a></p>
                   </div>
