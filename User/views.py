@@ -1,4 +1,5 @@
 from ctypes import create_string_buffer
+from email import message
 from queue import PriorityQueue
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.http import HttpResponse
@@ -18,36 +19,6 @@ from Blood.models import BloodRequest,DonationRequest
 
 # Create your views here.
 def UserRegistration(request):
-    print("Inside")
-    # if request.method=='POST':
-    #     first_name=request.POST.get('firstName','default value')
-    #     last_name=request.POST.get('lastName')
-    #     username=request.POST.get('userName')
-    #     password1=request.POST.get('password1')
-    #     password2=request.POST.get('password2')
-    #     email = request.POST.get('email')
-    #     usergroup = Group.objects.get(name='Client')
-       
-
-    #     if password1==password2:
-    #         if User.objects.filter(username=username).exists():
-    #             messages.info(request,"Username Taken")
-    #             return redirect('/client/registration/')
-    #         elif User.objects.filter(email=email).exists():
-    #             messages.info(request,"Email Taken")
-    #             return redirect('/client/registration/')
-    #         else:
-    #             user=User.objects.create(username=username,email=email,first_name=first_name,last_name=last_name)
-    #             user.set_password(password2)
-    #             usergroup.user_set.add(user)
-    #             user.save()
-    #             print('user created')
-    #             return redirect('/client/login')
-                
-    #     else:
-    #         messages.info(request,"Password not matching")
-    #         return redirect('/client/registration/')
-
     if request.method=='POST':
         clientform = UserRegistrationForm(request.POST)
         
@@ -56,10 +27,10 @@ def UserRegistration(request):
             data = clientform.cleaned_data
             if data['password1']==data['password2']:
                 if User.objects.filter(username=data['username']).exists():
-                    messages.info(request,"Username Taken")
+                    messages.error(request,"Username Taken")
                     return redirect('/client/registration/')
                 elif User.objects.filter(email=data['email']).exists():
-                    messages.info(request,"Email Taken")
+                    messages.error(request,"Email Taken")
                     return redirect('/client/registration/')
                 else:
                     # client = User.objects.create(username=data['username'],email=data['email'],first_name=data['first_name'],last_name=data['last_name'])
@@ -78,32 +49,6 @@ def UserRegistration(request):
 
 
 def UserLogin(request):
-
-    # if request.method=="POST":
-    #     username=request.POST.get('username')
-    #     password=request.POST.get('password')
-    #     usergroup = Group.objects.get(name='Client')
-    #     print(username)
-    #     print(password)
-
-    #     user=authenticate(username=username,password=password)
-    #     print(user)
-
-    #     if user is not None:
-    #         if user.groups.filter(name=usergroup):
-    #             login(request,user)
-    #             return render(request,'Client/client-home.html')
-    #         else:
-    #             messages.info(request,"Invalid User Group")
-    #             return redirect("/client/login/")   
-    #         # login(request,user)
-    #         # print(usergroup)
-    #         # return HttpResponse('Logged in successfully')
-            
-    #     else:
-    #         messages.info(request,'Invalid credentials')
-    #         return redirect("/client/login/")
-    # else:
     if request.method=="POST":
         clientform = UserLoginForm(request.POST)
         requestfrom = request.POST.get('loginform',"clientloginform")
@@ -128,12 +73,13 @@ def UserLogin(request):
             if client is not None:
                 if client.groups.filter(name=usergroup):
                     login(request,client)
+                    messages.success(request,"Successfully logged in!")
                     return redirect(homepage)
                 else:
                     messages.error(request,"Invalid User Group")
                     return redirect(redirecturl)
             else:
-                messages.info(request,'Invalid Credential !!!')
+                messages.error(request,'Invalid Credential !!!')
                 return redirect(redirecturl)
         else:
             messages.info(request,'Form not valid')
@@ -145,6 +91,7 @@ def UserLogin(request):
 
 def UserLogout(request):
     logout(request)
+    messages.success(request,"You have been logged out successfully")
     return redirect('/')
 
 @login_required(login_url="/client/login/")
@@ -209,7 +156,7 @@ def MakeRequest(request):
             bloodrequest = bloodrequestform.save(commit=False)
             bloodrequest.request_by_client = Profile.objects.get(user_id = request.user.id)
             bloodrequest.save()
-            messages.success(request,"submit successful")
+            messages.success(request,"blood request successful")
             return redirect('/client/my-request/')
         else:
             print(bloodrequestform.errors)
@@ -244,12 +191,12 @@ def Campaigns(request):
 def DonateBlood(request,pk):
     if request.method=="POST":
         donationform = DonationRequestForm(request.POST)
-        user = Profile.objects.get
         if donationform.is_valid():
             df = donationform.save(commit=False)
             df.campaignid = pk
             df.request_by_client = Profile.objects.get(user_id = request.user.id)
             df.save()
+            messages.success(request,"Donation Request submitted successfully!")
             return redirect('/client/client-dash/')
         else:
             return HttpResponse("Not Valid")
@@ -257,9 +204,6 @@ def DonateBlood(request,pk):
             campaign = Campaign.objects.filter(id=pk)
             campaigns = Campaign.objects.all()
             donationform = DonationRequestForm()
-
-        
-
     return render(request,"User/blooddonationpage.html",{"campaigns":campaigns,"donationform":donationform,"id":pk})
     
 

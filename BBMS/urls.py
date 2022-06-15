@@ -20,6 +20,7 @@ from Blood_Bank import views
 from django.conf import settings
 from django.conf.urls.static import static
 from User import views as user_views
+from Blood_Bank import views as admin_views
 
 urlpatterns = [
     path('superadmin/', admin.site.urls),
@@ -28,6 +29,9 @@ urlpatterns = [
     path('admin/',include('Blood_Bank.urls')),
     path('user/profile/<int:pk>/',user_views.profile,name='user_profile'),
     # path('user/user-update/',user_views.profileupdate,name='user_update')
+    path('user/view_certificate/<int:pk>/',admin_views.ViewCertificate,name='view_certificate'),
+    path('user/view_approval/<int:pk>/',admin_views.ViewApproval,name='view_approval'),
+
 ]
 
 

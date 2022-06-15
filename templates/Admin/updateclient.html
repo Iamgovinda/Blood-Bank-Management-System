@@ -15,15 +15,6 @@
                     <legend class="border-bottom mb-4">
                         <b> User Profile Settings</b>
                         <hr>
-                        <div class="col-md-12">
-                            {% if messages %}
-                              {% for message in messages %}
-                                <div class="alert alert-success">
-                                  {{ message }}
-                                </div>
-                              {% endfor %}
-                            {% endif %}
-                          </div> 
                     </legend>
 
                     {{u_form|crispy}}
@@ -31,7 +22,7 @@
                     {{p_form.address | as_crispy_field}}
                 </fieldset>
                 <input type="hidden" name="userid" value={{user.id}}>
-                <div class="mt-5 text-center"><button class="btn btn-success profile-button" type="submit">Save Profile</button></div>
+                <div class="mt-5 text-center"><button class="btn btn-success profile-button" type="submit">Save Changes</button></div>
             
         </div>
         <div class="col-md-4">

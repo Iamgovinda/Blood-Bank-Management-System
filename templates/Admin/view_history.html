@@ -13,11 +13,11 @@
                 <th scope="col">Patient Age</th>
                 <th scope="col">Blood Group</th>
                 <th scope="col">Unit</th>
-                <th scope="col">Date</th>
+                <th scope="col">Request Date</th>
+                {% comment %} <th scope="col">Response Time</th> {% endcomment %}
                 <th scope="col">Status</th>
-                <th scope="col">Response Time</th>
                 <th scope="col">Remarks</th>
-                
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -30,16 +30,34 @@
                 <td>{{t.unit}}</td>
                 <td>{{t.request_date}}</td>
                 {% if t.status == 'Approved' %}
-                <td><span class="label label-success">{{t.response_date}}</span></td>
+                {% comment %} <td><span class="label label-success">{{t.response_date}}</span></td> {% endcomment %}
                 <td><span class="bg-success">Approved</span></td>
                 <td>
                     <span style="color:green;"><b>Your Request is Approved!</b></span>
                 </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{% url 'sendmail_br' t.id %}" class="btn btn-danger" style="text-decoration:none;">Send Mail</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'delete_br' t.id %}" class="btn btn-danger" style="text-decoration:none;">Delete</a>
+                </td>
+                {% elif t.status == 'Given' %}
+                {% comment %} <td><span class="label label-success">{{t.response_date}}</span></td> {% endcomment %}
+                <td><span class="bg-success">Given</span></td>
+                <td>
+                    <span style="color:green;"><b>{{t.unit}} ML of {{t.patient_bloodgroup}} Blood is Deducted from stock!</b></span>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{% url 'sendmail_br' t.id %}" class="btn btn-danger" style="text-decoration:none;">Send Mail</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'delete_br' t.id %}" class="btn btn-danger" style="text-decoration:none;">Delete</a>
+                </td>
                 {% elif t.status == 'Rejected' %}
-                <td><span class="label label-success">{{t.response_date}}</span></td>
+                {% comment %} <td><span class="label label-success">{{t.response_date}}</span></td> {% endcomment %}
                 <td><span class="bg-danger">Rejected</span></td>
                 <td>
                     <span style="color:red;"><b>Your Request is Rejected!</b></span>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{% url 'sendmail_br' t.id %}" class="btn btn-danger" style="text-decoration:none;">Send Mail</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'delete_br' t.id %}" class="btn btn-danger" style="text-decoration:none;">Delete</a>
                 </td>
                 {% endif %} 
                 {% comment %} <td><span style="color: black;margin-left: 0px; font-weight:bolder;" class="label dark">{{status}}</span></td> {% endcomment %}
@@ -60,9 +78,11 @@
                 <th scope="col">Blood Group</th>
                 <th scope="col">Registered Date</th>
                 <th scope="col">Campaign ID</th>
+                {% comment %} <th scope="col">Response Time</th> {% endcomment %}
                 <th scope="col">Status</th>
-                <th scope="col">Response Time</th>
                 <th scope="col">Remarks</th>
+                <th scope="col">Actions</th>
+                
                 
             </tr>
         </thead>
@@ -76,16 +96,35 @@
                 <td>{{t.request_date}}</td>
                 <td>{{t.campaignid}}</td>
                 {% if t.status == 'Approved' %}
-                <td><span class="label label-success">{{t.response_date}}</span></td>
+                {% comment %} <td><span class="label label-success">{{t.response_date}}</span></td> {% endcomment %}
                 <td><span class="bg-success">Approved</span></td>
                 <td>
-                    <span style="color:green;"><b>Request is Approved!</b></span>
+                    <span style="color:green;"><small><b>Request is Approved!</b></small></span>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{% url 'sendmail_dr' t.id %}" class="btn btn-danger" style="text-decoration:none;">Mail</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'delete_dr' t.id %}" class="btn btn-danger" style="text-decoration:none;">Delete</a>
                 </td>
                 {% elif t.status == 'Rejected' %}
-                <td><span class="label label-success">{{t.response_date}}</span></td>
+                {% comment %} <td><span class="label label-success">{{t.response_date}}</span></td> {% endcomment %}
                 <td><span class="bg-danger">Rejected</span></td>
                 <td>
-                    <span style="color:red;"><b>Request is Rejected!</b></span>
+                    <span style="color:red;"><small><b>Request is Rejected!</b></small></span>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{% url 'sendmail_dr' t.id %}" class="btn btn-danger" style="text-decoration:none;">Mail</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'delete_dr' t.id %}" class="btn btn-danger" style="text-decoration:none;">Delete</a>
+                </td>
+                {% elif t.status == 'Donated' %}
+                {% comment %} <td><span class="label label-success">{{t.response_date}}</span></td> {% endcomment %}
+                <td><span class="bg-success">Donated</span>
+                    <a class="btn btn-success btn-sm" style="text-decoration:none" href="{% url 'view_certificate' t.id %}">certificate</a></td>
+                <td>
+                    <span style="color:green;"><small><b>{{t.unit}} Blood is Added to Stock!</b></small></span>
+                </td> 
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{% url 'sendmail_dr' t.id %}" class="btn btn-danger" style="text-decoration:none;">Mail</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'delete_dr' t.id %}" class="btn btn-danger" style="text-decoration:none;">Delete</a>
                 </td>
                 {% endif %} 
                 {% comment %} <td><span style="color: black;margin-left: 0px; font-weight:bolder;" class="label dark">{{status}}</span></td> {% endcomment %}

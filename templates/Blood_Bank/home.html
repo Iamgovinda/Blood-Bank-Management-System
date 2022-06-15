@@ -9,12 +9,11 @@
     }
     .midimage
     {
-
       background-image: url('{% static "images/this.png" %}');
       background-repeat:no-repeat;
-      background-size:contain;
+      background-size:cover;
       background-position:center;
-      
+      padding: 30vh;
     }
     
     .foot{
@@ -27,29 +26,20 @@
       align-items: center;
       justify-content: center;
       padding: 30px;
+      margin:8vh;
     
     }
     
     {% endblock css %}
+    <div class="wrapper" style="margin-top: -16px;">
     {% block content %}
 
-
-      <div class="container container-fluid">
         <div class="midimage">
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         </div>
   
         <div class="midtext">
-          <br><br><br>
           <strong>{{quote}}</strong>
         </div>
-        <br><br><br>
-      </div>
-
-
-    
-    <div class="foot">
-      {% include "Blood_Bank/footer.html" %}
-    </div>
     {% endblock content %}
+    </div>
 

@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Campaign(models.Model):
-    event_name = models.CharField(max_length=20)
+    event_name = models.CharField(max_length=100)
     date = models.DateField()
     time = models.TimeField()
     location = models.CharField(max_length=50)
