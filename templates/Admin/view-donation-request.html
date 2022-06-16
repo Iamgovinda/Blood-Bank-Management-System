@@ -42,13 +42,13 @@
                 {% else %} {% endcomment %}
                 <td><span style="color: black;margin-left: 0px; font-weight:bolder;" class="label dark">Pending</span></td>
                 <td>
-                    <button class="btn btn-success" id="btnreject"  data-toggle="modal" data-target="#exampleModal1">Approve</button>
+                    <button class="btn btn-success" id="btnreject"  data-toggle="modal" data-target="#{{t.id}}example1">Approve</button>
                     {% comment %} <button class="btn btn-success" id="btnapprove"  data-toggle="modal" data-target="#exampleModal1"><a href="{% url 'approve_blood_request' t.id %}" style="text-decoration:none; color:white;">Approve</a></button> {% endcomment %}
                     &nbsp 
-                    <button class="btn btn-danger" id="btnreject"  data-toggle="modal" data-target="#exampleModal2">Reject</button>
+                    <button class="btn btn-danger" id="btnreject"  data-toggle="modal" data-target="#{{t.id}}example2">Reject</button>
                     {% comment %} <button class="btn btn-danger" id="btnreject"  data-toggle="modal" data-target="#exampleModal2"><a href="{% url 'reject_blood_request' t.id %}" style="text-decoration:none; color:white;">Reject</a></button> {% endcomment %}
                         <!-- Modal -->
-                    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="{{t.id}}example1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-info">
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="{{t.id}}example2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">

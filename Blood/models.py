@@ -20,7 +20,7 @@ class BloodRequest(models.Model):
     email = models.EmailField(max_length=100,null=True)
     mobile = models.CharField(default='+9779800000000',null=True,max_length=15)
     unit = models.PositiveIntegerField(default=0)
-    Requisition_form = models.ImageField(default="blood-sample.jpg",upload_to='requistion_forms/')
+    medical_report = models.ImageField(default="blood-sample.jpg",upload_to='requistion_forms/')
     status=models.CharField(max_length=20,default="Pending")
     request_date=models.DateField(auto_now=True)
     response_message = models.CharField(max_length=1000,default="")

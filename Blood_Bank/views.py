@@ -296,7 +296,8 @@ def ApproveBloodRequest(request, pk):
         stockblood.save()
         br.save()
     else:
-        return HttpResponse("Stock has no enough blood")
+        messages.error(request,"Stock has no enough blood.")
+        return redirect('/admin/view-bloodrequests/')
     return redirect("/admin/view-bloodrequests/")
 
 
@@ -309,7 +310,6 @@ def RejectBloodRequest(request, pk):
         br.response_message = request.POST.get('RejectionMessage')
         br.response_date = datetime.now()
         br.save()
-        print(br.response_message)
         return redirect("/admin/view-bloodrequests/")
 
 
@@ -328,7 +328,7 @@ def ManageDR(request,pk):
     if request.method=="GET":
         dr = DonationRequest.objects.get(id=pk)
         dr.delete()
-        print("Deleted")
+        messages.success(request,'Donation Request Deleted Successfully!')
         return redirect('/admin/view-history/')
 
 @login_required(login_url="/admin/login/")
@@ -552,8 +552,7 @@ def GiveBloodNewRequest(request):
 
 # provide the certificate section
 
-@login_required(login_url="/admin/login/")
-@role_required(allowed_roles=['Blood Bank Manager',"Client"], redirect_route='/admin/admin-dash/')
+
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
     html = template.render(context_dict)
@@ -565,6 +564,7 @@ def render_to_pdf(template_src, context_dict={}):
 
 
 # Opens up page as PDF
+
 @login_required(login_url="/admin/login/")
 @role_required(allowed_roles=['Blood Bank Manager',"Client"], redirect_route='/admin/admin-dash/')
 def ViewCertificate(request, pk, *args, **kwargs):
@@ -573,6 +573,7 @@ def ViewCertificate(request, pk, *args, **kwargs):
     pdf = render_to_pdf('Admin/certificate.html', data)
     return HttpResponse(pdf, content_type='application/pdf')
 # Opens up page as PDF
+
 
 @login_required(login_url="/admin/login/")
 @role_required(allowed_roles=['Blood Bank Manager',"Client"], redirect_route='/admin/admin-dash/')
