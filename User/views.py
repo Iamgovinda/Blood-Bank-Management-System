@@ -150,7 +150,7 @@ def profile(request,pk):
 @role_required(allowed_roles=['Client'],redirect_route='/admin/admin-dash/')
 def MakeRequest(request):
     if request.method == "POST":
-        bloodrequestform = BloodRequestForm(request.POST)
+        bloodrequestform = BloodRequestForm(request.POST,request.FILES)
         print(bloodrequestform.is_valid())
         if bloodrequestform.is_valid():
             bloodrequest = bloodrequestform.save(commit=False)
