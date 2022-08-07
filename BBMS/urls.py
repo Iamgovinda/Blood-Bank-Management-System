@@ -28,6 +28,7 @@ urlpatterns = [
     path('client/',include('User.urls')),
     path('admin/',include('Blood_Bank.urls')),
     path('user/profile/<int:pk>/',user_views.profile,name='user_profile'),
+    path('user/view_stock/',user_views.view_stock,name='view_stock'),
     # path('user/user-update/',user_views.profileupdate,name='user_update')
     path('user/view_certificate/<int:pk>/',admin_views.ViewCertificate,name='view_certificate'),
     path('user/view_approval/<int:pk>/',admin_views.ViewApproval,name='view_approval'),

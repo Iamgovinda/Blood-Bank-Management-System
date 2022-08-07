@@ -1,0 +1,117 @@
+{% extends 'User/client_dash_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        
+<br>
+<hr>
+<h3 style = "text-align:center;"><b>Available Blood</b></h3>
+<hr>
+<div class="row" style="margin-top: 28px;">
+    <div class="col-sm-3">
+      <div class="card" style="background-color: #e4e4e4;">
+        <div class="card-body">
+            <div class="blood">
+                <h2>A+ <i class="fas fa-tint" style="color: red;"></i></h2>
+            </div><br><br>
+            <div>
+               <b> {{A1}}</b>
+            </div>                            
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            
+            <div class="card-body" style="background-color: #e4e4e4;">
+                <div class="blood">
+                    <h2>B+ <i class="fas fa-tint" style="color: red;"></i></h2>
+                </div><br><br>
+                <div>
+                 <b> {{B1}}</b>
+                </div>                            
+            </div>
+          </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card " style="background-color: #e4e4e4;">
+            <div class="card-body">
+                <div class="blood">
+                    <h2>O+ <i class="fas fa-tint" style="color: red;"></i></h2>
+                </div><br><br>
+                <div>
+                 <b> {{O1}}</b>
+                </div>                            
+            </div>
+          </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="card " style="background-color: #e4e4e4;">
+            <div class="card-body">
+                <div class="blood">
+                    <h2>AB+ <i class="fas fa-tint" style="color: red;"></i></h2>
+                </div><br><br>
+                <div>
+                  <b>{{AB1}}</b>
+                </div>                            
+            </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="card " style="background-color: #e4e4e4;">
+        <div class="card-body">
+            <div class="blood">
+                <h2>A- <i class="fas fa-tint" style="color: red;"></i></h2>
+            </div><br><br>
+            <div>
+             <b> {{A2}}</b>
+            </div>                            
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card " style="background-color: #e4e4e4;">
+            <div class="card-body">
+                <div class="blood">
+                    <h2>B- <i class="fas fa-tint" style="color: red;"></i></h2>
+                </div><br><br>
+                <div>
+                  <b>{{B2}}</b>
+                </div>                            
+            </div>
+          </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card " style="background-color: #e4e4e4;">
+            <div class="card-body">
+                <div class="blood">
+                    <h2>O- <i class="fas fa-tint" style="color: red;"></i></h2>
+                </div><br><br>
+                <div>
+                 <b> {{O2}}</b>
+                </div>                            
+            </div>
+          </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="card " style="background-color: #e4e4e4;">
+            <div class="card-body">
+                <div class="blood">
+                    <h2>AB- <i class="fas fa-tint" style="color: red;"></i></h2>
+                </div><br><br>
+                <div>
+                  <b>{{AB2}}</b>
+                </div>                            
+            </div>
+          </div>
+      </div>
+  </div>
+<hr>
+<hr>
+    </div>
+{% endblock %}

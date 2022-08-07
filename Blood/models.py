@@ -42,7 +42,7 @@ class DonationRequest(models.Model):
     address = models.CharField(max_length=100,null=True)
     campaignid = models.IntegerField(default=0)
     request_date=models.DateField(auto_now=True)
-    disease = models.CharField(max_length=200,default="No Diesease")
+    medical_report = models.ImageField(default="medical-report.png",upload_to='medical_report/')
     status = models.CharField(max_length=20,default="Pending")
     response_message = models.CharField(max_length=200,default="")
     response_date = models.DateTimeField(auto_now=True)
