@@ -14,8 +14,7 @@ from django.contrib.auth.decorators import login_required
 from User import models as U_model
 from Blood import models as B_model
 from User.models import Profile
-from Blood.models import BloodRequest,DonationRequest
-
+from Blood.models import BloodRequest,DonationRequest,Stock
 
 # Create your views here.
 def UserRegistration(request):
@@ -190,7 +189,7 @@ def Campaigns(request):
 @role_required(allowed_roles=['Client'],redirect_route='/admin/admin-dash/')
 def DonateBlood(request,pk):
     if request.method=="POST":
-        donationform = DonationRequestForm(request.POST)
+        donationform = DonationRequestForm(request.POST,request.FILES)
         if donationform.is_valid():
             df = donationform.save(commit=False)
             df.campaignid = pk
@@ -205,6 +204,20 @@ def DonateBlood(request,pk):
             campaigns = Campaign.objects.all()
             donationform = DonationRequestForm()
     return render(request,"User/blooddonationpage.html",{"campaigns":campaigns,"donationform":donationform,"id":pk})
+
+def view_stock(request):
+    
+    context= {
+        'A1': str(Stock.objects.get(bloodgroup="A+").unit) + ' ML',
+        'A2': str(Stock.objects.get(bloodgroup="A-").unit) + ' ML',
+        'B1': str(Stock.objects.get(bloodgroup="B+").unit) + ' ML',
+        'B2': str(Stock.objects.get(bloodgroup="B-").unit) + ' ML',
+        'AB1': str(Stock.objects.get(bloodgroup="AB+").unit) + ' ML',
+        'AB2': str(Stock.objects.get(bloodgroup="AB-").unit) + ' ML',
+        'O1': str(Stock.objects.get(bloodgroup="O+").unit) + ' ML',
+        'O2': str(Stock.objects.get(bloodgroup="O-").unit) + ' ML',
+    }
+    return render(request,"User/view_stock.html",context)
     
 
 # ['DoesNotExist', 'EMAIL_FIELD', 'Meta', 'MultipleObjectsReturned', 'REQUIRED_FIELDS', 'USERNAME_FIELD', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_check_column_name_clashes', '_check_constraints', '_check_default_pk', '_check_field_name_clashes', '_check_fields', '_check_id_field', '_check_index_together', '_check_indexes', '_check_local_fields', '_check_long_column_names', '_check_m2m_through_same_relationship', '_check_managers', '_check_model', '_check_model_name_db_lookup_clashes', '_check_ordering', '_check_property_name_related_field_accessor_clashes', '_check_single_primary_key', '_check_swappable', '_check_unique_together', '_do_insert', '_do_update', '_get_FIELD_display', '_get_expr_references', '_get_next_or_previous_by_FIELD', '_get_next_or_previous_in_order', '_get_pk_val', '_get_unique_checks', '_meta', '_password', '_perform_date_checks', '_perform_unique_checks', '_prepare_related_fields_for_save', '_save_parents', '_save_table', '_set_pk_val', 'check', 'check_password', 'clean', 'clean_fields', 'date_error_message', 'date_joined', 'delete', 'email', 'email_user', 'first_name', 'from_db', 'full_clean', 'get_all_permissions', 'get_deferred_fields', 'get_email_field_name', 'get_full_name', 'get_group_permissions', 'get_next_by_date_joined', 'get_previous_by_date_joined', 'get_session_auth_hash', 'get_short_name', 'get_user_permissions', 'get_username', 'groups', 'has_module_perms', 'has_perm', 'has_perms', 'has_usable_password', 'id', 

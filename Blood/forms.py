@@ -10,5 +10,5 @@ class BloodRequestForm(forms.ModelForm):
 class DonationRequestForm(forms.ModelForm):
     class Meta:
         model = DonationRequest
-        fields = ("name","email","mobile","address","age","gender","bloodgroup","disease")
+        fields = ("name","email","mobile","address","age","gender","bloodgroup","medical_report")
 

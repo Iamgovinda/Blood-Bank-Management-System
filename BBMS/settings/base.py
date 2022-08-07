@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+from tkinter.tix import Tree
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
     'Blood_Bank',
     'crispy_forms',
     'widget_tweaks',
+
 ]
 
 MIDDLEWARE = [
@@ -101,3 +103,4 @@ MESSAGE_TAGS = {
     messages.SUCCESS:'success',
     messages.INFO:'info'
 }
+

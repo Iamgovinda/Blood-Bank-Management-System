@@ -12,7 +12,7 @@
                 <th scope="col">Donor Name</th>
                 <th scope="col">Donor Age</th>
                 <th scope="col">Blood Group</th>
-                <th scope="col">Disease</th>
+                <th scope="col">Medical Report</th>
                 <th scope="col">Register Date</th>
                 <th scope="col">Email</th>
                 <th scope="col">Status</th>
@@ -27,7 +27,33 @@
                 <td> {{t.name}}</td>
                 <td>{{t.age}}</td>
                 <td>{{t.bloodgroup}}</td>
-                <td>{{t.disease}}</td>
+                <td>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{t.id}}example3">
+                        View MR
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="{{t.id}}example3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info" >
+                            <h5 class="modal-title" id="exampleModalLongTitle">Medical Report of {{t.name}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="{{t.medical_report.url}}" alt="img" width="470vh">
+                            </div>
+                            <div class="modal-footer bg-info">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </td>
+                </td>
                 <td>{{t.email}}</td>
                 <td>{{t.request_date}}</td>
                 {% comment %} <td><span class="label warning">Approved</span></td>
@@ -57,11 +83,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             </div>
-                            <div class="modal-body bg-danger">
-                                
-                                <h5><b>Disease: <strong>"{{t.disease}}"</strong></b></h5>
-                                <hr>
- 
+                            <div class="modal-body">
+                                <img src="{{t.medical_report.url}}" alt="img" width="470vh">
                             </div>
                             <div class="modal-footer bg-info">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
