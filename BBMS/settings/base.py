@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'Blood_Bank',
     'crispy_forms',
     'widget_tweaks',
+    'django_extensions',
 
 ]
 
