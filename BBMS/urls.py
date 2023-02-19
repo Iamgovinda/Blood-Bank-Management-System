@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from User import views as user_views
 from Blood_Bank import views as admin_views
 
+
 urlpatterns = [
     path('superadmin/', admin.site.urls),
     path('',views.home, name='home'),
@@ -33,7 +34,7 @@ urlpatterns = [
     path('user/view_certificate/<int:pk>/',admin_views.ViewCertificate,name='view_certificate'),
     path('user/view_approval/<int:pk>/',admin_views.ViewApproval,name='view_approval'),
 
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 if settings.DEBUG:
