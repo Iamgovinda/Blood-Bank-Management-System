@@ -23,7 +23,6 @@ class UserRegistrationForm(UserCreationForm):
 
     def save(self, *args, **kwargs):
         usergroup = Group.objects.get(name='Client')
-
         user = super().save(*args, **kwargs)
         user.set_password(self.cleaned_data["password1"])
         usergroup.user_set.add(user)

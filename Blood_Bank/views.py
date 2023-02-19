@@ -510,7 +510,6 @@ def GiveBloodExistingRequest(request):
         unit = request.POST.get("bunit")
         blood = BloodRequest.objects.get(id=patientidd)
         blood.unit = unit
-        print("Here Inside")
         blood.status = "Given"
         stock = Stock.objects.get(bloodgroup=blood.patient_bloodgroup)
         stock.unit = int(stock.unit) - int(unit)
@@ -533,7 +532,6 @@ def GiveBloodNewRequest(request):
                 stock.save()
             else:
                 return HttpResponse("Stock Has No enough Blood")
-            print(bloodgroup)
             df.request_by_client = Profile.objects.get(user_id=request.user.id)
             df.unit = unit
             df.status = "Given"
